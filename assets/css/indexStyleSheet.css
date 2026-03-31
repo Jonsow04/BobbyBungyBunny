@@ -1,1 +1,168 @@
+/* Fuente para el texto de la barra de navegación */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
 
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.barra-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 0.6rem 1.5rem;
+    background-color: #4c3d19;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+/* Logo */
+.icono {
+    width: 25px;
+    height: auto; 
+    flex-shrink: 0;
+}
+
+/* Contenedor del menú (búsqueda + enlaces) */
+.nav-ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+/* Ajuste para que el li que contiene la búsqueda no tenga margen extra */
+.nav-ul li {
+    display: flex;
+    align-items: center;
+}
+
+/* Barra de búsqueda - versión compacta */
+.barra-busqueda {
+    position: relative;
+    width: 260px;
+    margin: 0;
+}
+
+/* Estilo para la barra de búsqueda */
+.barra-busqueda input {
+    width: 100%;
+    padding: 0.5rem 2.2rem 0.5rem 0.8rem;
+    border: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    background: transparent;
+    font-size: 0.9rem;
+    font-family: 'Cormorant Garamond', serif;
+    color: white;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.barra-busqueda input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.barra-busqueda input:focus {
+    border-bottom-color: #C7B198;
+}
+
+/* Botón de búsqueda */
+.boton-busqueda {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #C7B198;
+    border: none;
+    color: white;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    font-size: 0.8rem;
+}
+
+.boton-busqueda:hover {
+    background: #B59A7A;
+    transform: translateY(-50%) scale(1.05);
+}
+
+/* Enlaces de navegación */
+.barra-nav a {
+    text-decoration: none;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #f9f6ee;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+}
+
+.barra-nav a:hover {
+    color: #C7B198;
+}
+
+/* Icono del carrito */
+.barra-nav a i {
+    font-size: 1.2rem;
+}
+
+body {
+    background-color: #e5d7c4;
+    min-height: 100vh;
+}
+
+/* Responsive para tablets */
+@media (max-width: 768px) {
+    .barra-nav {
+        flex-wrap: wrap;
+        padding: 0.6rem 1rem;
+        gap: 0.8rem;
+    }
+    
+    .barra-busqueda {
+        width: 200px;
+    }
+    
+    .nav-ul {
+        gap: 1rem;
+    }
+    
+    .barra-nav a {
+        font-size: 0.9rem;
+    }
+}
+
+/* Responsive para móviles */
+@media (max-width: 480px) {
+    .barra-nav {
+        flex-direction: column;
+        padding: 0.8rem;
+    }
+    
+    .icono {
+        width: 35px;
+    }
+    
+    .barra-busqueda {
+        width: 100%;
+        max-width: 280px;
+    }
+    
+    .nav-ul {
+        width: 100%;
+        justify-content: center;
+        gap: 1.2rem;
+    }
+    
+    .barra-nav a {
+        font-size: 0.85rem;
+    }
+}
