@@ -6,15 +6,24 @@
     box-sizing: border-box;
 }
 
+/* Paleta de colores principal */
+:root {
+    --cafe-noir: #4c3d19;
+    --verde-kombu: #354024;
+    --verde-moss: #889063;
+    --tan: #cfbb99;
+    --hueso: #e5d7c4;
+    --fondo: #f9f6ee;
+}
+
+/* Estilos para la barra de navegación principal */
 .barra-nav {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 1.5rem;
     padding: 0.6rem 1.5rem;
-    background-color: #4c3d19;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
+    background-color: var(--cafe-noir);
 }
 
 /* Logo */
@@ -43,7 +52,7 @@
 /* Barra de búsqueda - versión compacta */
 .barra-busqueda {
     position: relative;
-    width: 260px;
+    width: 30vw;
     margin: 0;
 }
 
@@ -90,11 +99,16 @@
 }
 
 .boton-busqueda:hover {
-    background: #B59A7A;
+    background: #b59a7a;
     transform: translateY(-50%) scale(1.05);
 }
 
-/* Enlaces de navegación */
+/* Cambiar color y tamaño de la x de la barra de búsqueda */
+.barra-busqueda input[type="search"]::-webkit-search-cancel-button {
+    display: none;
+}
+
+/* Enlaces de navegación en la barra principal */
 .barra-nav a {
     text-decoration: none;
     font-family: 'Cormorant Garamond', serif;
@@ -106,7 +120,7 @@
 }
 
 .barra-nav a:hover {
-    color: #C7B198;
+    color: #c7b198;
 }
 
 /* Icono del carrito */
@@ -114,9 +128,81 @@
     font-size: 1.2rem;
 }
 
+/* Estilos para la barra de navegación secundaria */
+.barra-nav-sec {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1.5rem;
+    padding: 0.2rem 1.5rem;
+    background-color: var(--tan);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+/* Estilos para la barra de navegación secundaria */
+.barra-nav-sec {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1.5rem;
+    padding: 0.2rem 1.5rem;
+    background-color: var(--tan);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+/* Estilos específicos para los enlaces de la barra secundaria */
+.barra-nav-sec .nav-ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+.barra-nav-sec .nav-ul li {
+    display: flex;
+    align-items: center;
+}
+
+/* Cambia el color del texto a uno más oscuro para que contraste con el fondo claro */
+.barra-nav-sec a {
+    text-decoration: none;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--cafe-noir);
+    transition: color 0.3s ease;
+    white-space: nowrap;
+}
+
+.barra-nav-sec a:hover {
+    color: white;
+}
+
 body {
-    background-color: #e5d7c4;
+    background-color: var(--hueso);
     min-height: 100vh;
+}
+
+main {
+    margin-top: 10px;
+}
+
+.contenido {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 80%;
+    margin: 0 auto;
+    gap: 10px;
+}
+
+.caja {
+    background-color: white;
+    border-radius: 7px;
+    padding: 10px;
 }
 
 /* Responsive para tablets */
@@ -136,6 +222,18 @@ body {
     }
     
     .barra-nav a {
+        font-size: 0.9rem;
+    }
+
+    .barra-nav-sec {
+        padding: 0.2rem 1rem;
+    }
+    
+    .barra-nav-sec .nav-ul {
+        gap: 1rem;
+    }
+    
+    .barra-nav-sec a {
         font-size: 0.9rem;
     }
 }
@@ -164,5 +262,19 @@ body {
     
     .barra-nav a {
         font-size: 0.85rem;
+    }
+
+    .barra-nav-sec {
+        justify-content: center;
+    }
+    
+    .barra-nav-sec .nav-ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.8rem;
+    }
+    
+    .barra-nav-sec a {
+        font-size: 0.8rem;
     }
 }
