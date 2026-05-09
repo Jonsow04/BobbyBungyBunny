@@ -45,8 +45,13 @@
 
     <main>
         <!-- Carrusel de ofertas -->
-        <div>
-            <h2>Carrusel</h2>
+        <div class="carrusel-wrapper">
+            <div class="carrusel">
+                <div class="carrusel-track" id="carruselTrack"></div>
+                <button class="carrusel-btn carrusel-btn--prev" id="btnPrev" aria-label="Imagen anterior">&#8592;</button>
+                <button class="carrusel-btn carrusel-btn--next" id="btnNext" aria-label="Siguiente imagen">&#8594;</button>
+                <div class="carrusel-dots" id="carruselDots"></div>
+            </div>
         </div>
 
         <!-- Contenido principal -->
@@ -81,6 +86,8 @@
     <footer>
 
     </footer>
+    <script src="./assets/js/bunnyScripts.js"></script>
     </body>
 
 </html>
+
