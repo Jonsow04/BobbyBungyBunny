@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piensos | Bobby Bunny Shop</title>
+    
+    <link rel="icon" href="assets/multimedia/pictures/icon-pagina.png">
+    <link rel="stylesheet" href="assets/css/indexStyleSheet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <nav class="barra-nav">
+        <a href="index.html">
+            <img src="assets/multimedia/pictures/icon.png" alt="Bobby Bunny" class="icono">
+        </a>
+        <form class="barra-busqueda" action="">
+            <input type="search" placeholder="Buscar productos...">
+            <button type="submit" class="boton-busqueda"><i class="fas fa-search"></i></button>
+        </form>
+        <ul class="nav-ul">
+            <li><a href="#"><i class="fas fa-shopping-bag"></i></a></li>
+            <li><a href="#">Registrarse</a></li>
+            <li><a href="login.html">Iniciar sesión</a></li>
+        </ul>
+    </nav>
+    <nav class="barra-nav-sec">
+        <ul class="nav-ul">
+            <li><a href="piensos.html" style="color: white; border-bottom: 2px solid white;">Piensos</a></li>
+            <li><a href="premios.html">Premios</a></li>
+            <li><a href="juguetes.html">Juguetes</a></li>
+            <li><a href="habitats.html">Habitats</a></li>
+            <li><a href="limpieza.html">Limpieza y cuidado</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Piensos Más Populares 🐰</h1>
+            <p>Alimentación balanceada, heno y pienso aprobado por los consumidores. ¡Amor en cada bocado!</p>
+            <button class="btn-hero" onclick="document.querySelector('.productos-wrapper').scrollIntoView({behavior: 'smooth'})">Explorar colección →</button>
+        </div>
+    </div>
+    <div class="filtros"><ul></ul></div>
+    <div class="productos-wrapper"><div class="productos-grid" id="productosGrid"></div></div>
+</main>
+
+</body>
+<script>
+    window.CONFIG_SECCION = {
+        
+        categoriasMap: {
+            1: { nombre: 'Junior/Gazapos', filtro: 'piensoJunior' },
+            2: { nombre: 'Adulto', filtro: 'piensoAdulto' },
+            3: { nombre: 'Senior/Especiales', filtro: 'piensoSenior' }
+            
+        },
+        idCategoriasPermitidas: [1,2,3],
+    };
+</script>
+<script src="assets/js/productos.js"></script>
+</html>

@@ -389,3 +389,232 @@ main {
         font-size: 0.8rem;
     }
 }
+
+/* ============================================
+   ESTILOS PARA PÁGINA DE PIENSOS 
+   */
+
+.hero {
+    background: linear-gradient(77deg, rgba(58,47,30,0.9) 0%, rgba(58,47,30,0.4) 85%), url('../multimedia/pictures/hero-piensos.jpg');
+    background-size: cover;
+    background-position: center 30%;
+    padding: 5rem 2rem;
+    margin-bottom: 2rem;
+    border-radius: 0 0 20px 20px;
+}
+
+.hero-content {
+    max-width: 600px;
+    color: white;
+}
+
+.hero h1 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+}
+
+.btn-hero {
+    background-color: var(--cafe-noir);
+    border: none;
+    color: white;
+    padding: 0.8rem 2rem;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-hero:hover {
+    background-color: var(--marron-oscuro);
+    transform: scale(1.05);
+}
+
+/* Filtros estilo Netflix */
+.filtros {
+    padding: 0 2rem 1rem 2rem;
+    border-bottom: 2px solid var(--tan);
+    margin-bottom: 1.5rem;
+}
+
+.filtros ul {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    flex-wrap: wrap;
+}
+
+.filtros ul li a {
+    text-decoration: none;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    color: var(--cafe-noir);
+    font-size: 0.9rem;
+    transition: color 0.3s;
+    padding-bottom: 8px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.filtros ul li a:hover,
+.filtros ul li a.activo {
+    color: var(--verde-moss);
+    border-bottom: 3px solid var(--verde-moss);
+}
+
+/* Grid de productos */
+.productos-wrapper {
+    padding: 0 2rem;
+}
+
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.8rem;
+}
+
+/* Tarjeta de producto */
+.producto-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(58, 47, 30, 0.12);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.producto-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 32px rgba(58, 47, 30, 0.2);
+}
+
+.producto-imagen {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.producto-card:hover .producto-imagen {
+    transform: scale(1.05);
+}
+
+.producto-info {
+    padding: 1rem;
+}
+
+.producto-titulo {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--cafe-noir);
+    margin-bottom: 0.5rem;
+}
+
+.producto-descripcion {
+    font-size: 0.75rem;
+    color: #7a6b50;
+    line-height: 1.4;
+    margin-bottom: 0.8rem;
+}
+
+.producto-precio {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--verde-moss);
+    margin-bottom: 0.5rem;
+}
+
+.producto-stock {
+    font-size: 0.7rem;
+    color: var(--marron-acento);
+    margin-bottom: 0.8rem;
+}
+
+.stock-bajo {
+    color: #c0392b;
+    font-weight: bold;
+}
+
+.btn-agregar {
+    width: 100%;
+    background-color: var(--tan);
+    border: none;
+    padding: 0.6rem;
+    border-radius: 30px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    color: var(--cafe-noir);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-agregar:hover:not(:disabled) {
+    background-color: var(--cafe-noir);
+    color: white;
+}
+
+.btn-agregar:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.sin-stock {
+    background-color: #e74c3c;
+    color: white;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.loader {
+    text-align: center;
+    padding: 3rem;
+    font-size: 1.2rem;
+    color: var(--cafe-noir);
+}
+
+.loader i {
+    font-size: 2rem;
+    animation: girar 1s linear infinite;
+}
+
+@keyframes girar {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.sin-resultados {
+    text-align: center;
+    padding: 3rem;
+    color: var(--cafe-noir);
+    grid-column: 1 / -1;
+}
+
+/* Responsive para página de piensos */
+@media (max-width: 768px) {
+    .hero h1 { font-size: 2.2rem; }
+    .productos-grid { gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+    .producto-imagen { height: 150px; }
+    .filtros ul { gap: 1rem; }
+}
+
+@media (max-width: 480px) {
+    .hero { padding: 2rem 1rem; }
+    .productos-grid { grid-template-columns: repeat(2, 1fr); }
+    .filtros { padding: 0 1rem 0.5rem 1rem; }
+    .productos-wrapper { padding: 0 1rem; }
+}
