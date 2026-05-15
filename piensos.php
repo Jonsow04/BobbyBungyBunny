@@ -1,10 +1,10 @@
-<!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bobby Bunny Shop!</title>
+    <title>Piensos y henos | Bobby Bunny Shop!</title>
+
     <link rel="icon" href="assets/multimedia/pictures/icon-pagina.png">
     <link rel="stylesheet" href="assets/css/indexStyleSheet.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -32,8 +32,12 @@
 
         <nav class="barra-nav-sec">
             <ul class="nav-ul">
-                <li><a href="piensos.php">Piensos y henos</a></li>
-                <li><a href="premios.php" style="color: white; border-bottom: 2px solid white;">Premios</a></li>
+                <li>
+                    <a href="piensos.php" style="color: white; border-bottom: 2px solid white;">
+                        Piensos y henos
+                    </a>
+                </li>
+                <li><a href="premios.php">Premios</a></li>
                 <li><a href="juguetes.php">Juguetes</a></li>
                 <li><a href="habitats.php">Habitats</a></li>
                 <li><a href="limpieza.php">Limpieza y cuidado</a></li>
@@ -44,10 +48,10 @@
     <main>
         <div class="hero">
             <div class="hero-content">
-                <h1>Premios Deliciosos 🥕</h1>
-                <p>Snacks naturales y galletas que tus conejos amarán. ¡Un premio sano y sabroso!</p>
+                <h1>Piensos y henos más populares 🐰</h1>
+                <p>Alimentación balanceada, heno y pienso aprobado por los consumidores. ¡Amor en cada bocado!</p>
                 <button class="btn-hero" onclick="document.querySelector('.productos-wrapper').scrollIntoView({behavior: 'smooth'})">
-                    Explorar premios →
+                    Explorar colección →
                 </button>
             </div>
         </div>
@@ -63,16 +67,12 @@
 
     <script>
         window.CONFIG_SECCION = {
-            titulo: "Premios Favoritos 🥕",
-            descripcion: "Snacks naturales y galletas que tus conejos amarán. ¡Un premio sano y sabroso!",
-            seccion: "premios",
             categoriasMap: {
-                4: { nombre: 'Naturales/Frescos', filtro: 'NaturalesPremios' },
-                5: { nombre: 'Hierbas y Flores Secas', filtro: 'SecosPremios' },
-                6: { nombre: 'Comerciales/Procesados', filtro: 'ProcesadosPremios' },
-                7: { nombre: 'Premios de Enriquecimiento', filtro: 'Premios' }
+                1: { nombre: 'Junior/Gazapos', filtro: 'piensoJunior' },
+                2: { nombre: 'Adulto', filtro: 'piensoAdulto' },
+                3: { nombre: 'Senior/Especiales', filtro: 'piensoSenior' }
             },
-            idCategoriasPermitidas: [4, 5, 6, 7], // ids de categoría que pertenecen a Premios
+            idCategoriasPermitidas: [1, 2, 3],
         };
     </script>
     <script src="assets/js/productos.js"></script>
