@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bobby Bunny Shop!</title>
-
     <script src="./assets/js/bunnyScripts.js" defer></script>
     <link rel="icon" href="assets/multimedia/pictures/icon-pagina.png">
     <link rel="stylesheet" href="./assets/css/indexStyleSheet.css">
