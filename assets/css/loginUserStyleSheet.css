@@ -194,6 +194,7 @@ main {
 }
 
 .login-card {
+    margin: 20px;
     background-color: var(--fondo);
     border-radius: 6px;
     box-shadow: var(--sombra);
