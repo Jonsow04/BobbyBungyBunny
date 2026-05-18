@@ -1,5 +1,3 @@
-//     titulo: "Piensos Más Populares ",
-     
 
 (function() {
     // Esperar a que el DOM esté listo
