@@ -1,8 +1,11 @@
 /* Fuente para el texto de la barra de navegación */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
 
 * {
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
@@ -14,11 +17,30 @@
     --tan: #cfbb99;
     --hueso: #e5d7c4;
     --fondo: #f9f6ee;
+    --marron-oscuro: #3a2f1e;
+    --marron-acento: #8b7355;
 }
+
+/* Estilos base */
+body {
+    background-color: var(--hueso);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+main {
+    margin-top: 10px;
+}
+
+/* ============================================
+   BARRA DE NAVEGACIÓN PRINCIPAL
+   ============================================ */
 
 /* Estilos para la barra de navegación principal */
 .barra-nav {
     display: flex;
+    /*position: sticky;
+    top: 0;*/
     align-items: center;
     justify-content: center;
     gap: 1.5rem;
@@ -29,7 +51,7 @@
 /* Logo */
 .icono {
     width: 25px;
-    height: auto; 
+    height: auto;
     flex-shrink: 0;
 }
 
@@ -128,9 +150,14 @@
     font-size: 1.2rem;
 }
 
-/* Estilos para la barra de navegación secundaria */
+/* ============================================
+   BARRA DE NAVEGACIÓN SECUNDARIA (ORIGINAL)
+   ============================================ */
+
 .barra-nav-sec {
     display: flex;
+    /*position: sticky;
+    top: 60px;*/
     align-items: center;
     justify-content: flex-start;
     gap: 1.5rem;
@@ -138,28 +165,35 @@
     background-color: var(--tan);
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
 }
 
-/* Estilos para la barra de navegación secundaria */
-.barra-nav-sec {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 1.5rem;
-    padding: 0.2rem 1.5rem;
-    background-color: var(--tan);
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
+.barra-nav-sec::-webkit-scrollbar {
+    height: 4px;
 }
 
-/* Estilos específicos para los enlaces de la barra secundaria */
+.barra-nav-sec::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.barra-nav-sec::-webkit-scrollbar-thumb {
+    background: var(--cafe-noir);
+    border-radius: 10px;
+}
+
 .barra-nav-sec .nav-ul {
     list-style: none;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 1.5rem;
     margin: 0;
     padding: 0;
+    flex-wrap: nowrap;
 }
 
 .barra-nav-sec .nav-ul li {
@@ -167,7 +201,6 @@
     align-items: center;
 }
 
-/* Cambia el color del texto a uno más oscuro para que contraste con el fondo claro */
 .barra-nav-sec a {
     text-decoration: none;
     font-family: 'Cormorant Garamond', serif;
@@ -176,26 +209,24 @@
     color: var(--cafe-noir);
     transition: color 0.3s ease;
     white-space: nowrap;
+    display: inline-block;
+    padding: 0.3rem 0;
 }
 
 .barra-nav-sec a:hover {
     color: white;
 }
 
-body {
-    background-color: var(--hueso);
-    min-height: 100vh;
-}
-
-main {
-    margin-top: 10px;
-}
+/* ============================================
+   CONTENIDO PRINCIPAL (GRID RESPONSIVE)
+   ============================================ */
 
 .contenido {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     width: 80%;
     margin: 0 auto;
+    margin-bottom: 20px;
     gap: 10px;
 }
 
@@ -206,7 +237,7 @@ main {
 }
 
 /* ============================================
-   CARRUSEL
+   CARRUSEL RESPONSIVE
    ============================================ */
 
 .carrusel-wrapper {
@@ -244,7 +275,7 @@ main {
     display: block;
 }
 
-/* Flechas minimalistas */
+/* Flechas del carrusel */
 .carrusel-btn {
     position: absolute;
     top: 50%;
@@ -252,22 +283,26 @@ main {
     background: rgba(249, 246, 238, 0.15);
     border: 1.5px solid rgba(249, 246, 238, 0.5);
     color: var(--fondo);
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+    transition: all 0.3s ease;
     z-index: 10;
     backdrop-filter: blur(4px);
-    line-height: 1;
 }
 
-.carrusel-btn--prev { left: 1rem; }
-.carrusel-btn--next { right: 1rem; }
+.carrusel-btn--prev {
+    left: 1rem;
+}
+
+.carrusel-btn--next {
+    right: 1rem;
+}
 
 .carrusel-btn:hover {
     background: rgba(199, 177, 152, 0.55);
@@ -282,120 +317,32 @@ main {
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 0.5rem;
+    gap: 0.6rem;
     z-index: 10;
 }
 
 .carrusel-dot {
-    width: 7px;
-    height: 7px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: rgba(249, 246, 238, 0.4);
     border: none;
     cursor: pointer;
     padding: 0;
-    transition: background 0.3s ease, transform 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .carrusel-dot.activo {
     background: var(--fondo);
-    transform: scale(1.35);
-}
-
-/* Responsive carrusel */
-@media (max-width: 768px) {
-    .carrusel { height: 280px; }
-}
-
-@media (max-width: 480px) {
-    .carrusel { height: 200px; }
-    .carrusel-btn { width: 34px; height: 34px; font-size: 0.95rem; }
+    transform: scale(1.4);
 }
 
 /* ============================================
-   FIN CARRUSEL
+   ESTILOS PARA LAS CAJAS DE PRODUCTOS
    ============================================ */
 
-/* Responsive para tablets */
-@media (max-width: 768px) {
-    .barra-nav {
-        flex-wrap: wrap;
-        padding: 0.6rem 1rem;
-        gap: 0.8rem;
-    }
-    
-    .barra-busqueda {
-        width: 200px;
-    }
-    
-    .nav-ul {
-        gap: 1rem;
-    }
-    
-    .barra-nav a {
-        font-size: 0.9rem;
-    }
-
-    .barra-nav-sec {
-        padding: 0.2rem 1rem;
-    }
-    
-    .barra-nav-sec .nav-ul {
-        gap: 1rem;
-    }
-    
-    .barra-nav-sec a {
-        font-size: 0.9rem;
-    }
-}
-
-/* Responsive para móviles */
-@media (max-width: 480px) {
-    .barra-nav {
-        flex-direction: column;
-        padding: 0.8rem;
-    }
-    
-    .icono {
-        width: 35px;
-    }
-    
-    .barra-busqueda {
-        width: 100%;
-        max-width: 280px;
-    }
-    
-    .nav-ul {
-        width: 100%;
-        justify-content: center;
-        gap: 1.2rem;
-    }
-    
-    .barra-nav a {
-        font-size: 0.85rem;
-    }
-
-    .barra-nav-sec {
-        justify-content: center;
-    }
-    
-    .barra-nav-sec .nav-ul {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.8rem;
-    }
-    
-    .barra-nav-sec a {
-        font-size: 0.8rem;
-    }
-}
-
-/* ============================================
-   ESTILOS PARA PÁGINA DE PIENSOS 
-   */
-
 .hero {
-    background: linear-gradient(77deg, rgba(58,47,30,0.9) 0%, rgba(58,47,30,0.4) 85%), url('../multimedia/pictures/hero-piensos.jpg');
+    background: linear-gradient(77deg, rgba(58, 47, 30, 0.9) 0%, rgba(58, 47, 30, 0.4) 85%), url('../multimedia/pictures/hero-piensos.jpg');
     background-size: cover;
     background-position: center 30%;
     padding: 5rem 2rem;
@@ -412,7 +359,7 @@ main {
     font-family: 'Nunito', sans-serif;
     font-size: 3.5rem;
     font-weight: 900;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
     margin-bottom: 1rem;
 }
 
@@ -420,7 +367,7 @@ main {
     font-size: 1.1rem;
     line-height: 1.5;
     margin-bottom: 1.5rem;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 .btn-hero {
@@ -441,11 +388,13 @@ main {
     transform: scale(1.05);
 }
 
-/* Filtros estilo Netflix */
+/* Filtros responsive */
 .filtros {
     padding: 0 2rem 1rem 2rem;
     border-bottom: 2px solid var(--tan);
     margin-bottom: 1.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .filtros ul {
@@ -453,6 +402,7 @@ main {
     gap: 2rem;
     list-style: none;
     flex-wrap: wrap;
+    min-width: min-content;
 }
 
 .filtros ul li a {
@@ -465,6 +415,7 @@ main {
     padding-bottom: 8px;
     display: inline-block;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .filtros ul li a:hover,
@@ -473,7 +424,7 @@ main {
     border-bottom: 3px solid var(--verde-moss);
 }
 
-/* Grid de productos */
+/* Grid de productos responsive */
 .productos-wrapper {
     padding: 0 2rem;
 }
@@ -593,8 +544,13 @@ main {
 }
 
 @keyframes girar {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .sin-resultados {
@@ -604,17 +560,394 @@ main {
     grid-column: 1 / -1;
 }
 
-/* Responsive para página de piensos */
-@media (max-width: 768px) {
-    .hero h1 { font-size: 2.2rem; }
-    .productos-grid { gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
-    .producto-imagen { height: 150px; }
-    .filtros ul { gap: 1rem; }
+/* ============================================
+   ESTILOS PARA PRODUCTOS EN INDEX
+   ============================================ */
+
+/* Estilos para tooltip de descripción */
+.caja {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.caja:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(58, 47, 30, 0.15);
+}
+
+.tooltip {
+    visibility: hidden;
+    background-color: var(--cafe-noir);
+    color: var(--hueso);
+    text-align: center;
+    border-radius: 8px;
+    padding: 10px 14px;
+    position: absolute;
+    z-index: 100;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: normal;
+    width: 220px;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: none;
+    font-family: 'Quicksand', sans-serif;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.caja:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Flecha del tooltip */
+.tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -6px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: var(--cafe-noir) transparent transparent transparent;
+}
+
+/* Precio del producto */
+.precio {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    color: var(--verde-moss);
+    font-size: 1.3rem;
+    margin: 10px 0 5px 0;
+}
+
+/* Stock */
+.stock {
+    font-size: 0.75rem;
+    color: var(--marron-acento);
+    margin: 5px 0;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.sin-stock {
+    color: #e74c3c;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+/* Botón de añadir al carrito */
+.btn-carrito {
+    width: 100%;
+    background-color: var(--tan);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 30px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--cafe-noir);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.btn-carrito:hover:not(:disabled) {
+    background-color: var(--cafe-noir);
+    color: white;
+    transform: scale(1.02);
+}
+
+.btn-carrito:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Mensaje cuando no hay productos */
+.no-productos {
+    text-align: center;
+    grid-column: 1 / -1;
+    padding: 50px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.2rem;
+    color: var(--cafe-noir);
+    background-color: white;
+    border-radius: 16px;
+}
+
+/* Estilos adicionales para las imágenes */
+.producto-imagen {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+}
+
+.caja:hover .producto-imagen {
+    transform: scale(1.02);
+}
+
+.imagen-placeholder {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, var(--tan) 0%, var(--hueso) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.imagen-placeholder i {
+    font-size: 4rem;
+    color: var(--cafe-noir);
+    opacity: 0.5;
+}
+
+/* ============================================
+   MEDIA QUERIES - RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablets (768px - 1024px) */
+@media (max-width: 1024px) {
+    .contenido {
+        grid-template-columns: repeat(3, 1fr);
+        width: 85%;
+        gap: 15px;
+    }
+
+    .productos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+}
+
+/* Tablets pequeñas (600px - 768px) */
+@media (max-width: 768px) {
+    .barra-nav {
+        flex-wrap: wrap;
+        padding: 0.6rem 1rem;
+        gap: 0.8rem;
+    }
+
+    .barra-busqueda {
+        width: 200px;
+    }
+
+    .nav-ul {
+        gap: 1rem;
+    }
+
+    .barra-nav a {
+        font-size: 0.9rem;
+    }
+
+    .carrusel {
+        height: 280px;
+    }
+
+    .carrusel-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 1rem;
+    }
+
+    .contenido {
+        grid-template-columns: repeat(2, 1fr);
+        width: 90%;
+        gap: 12px;
+    }
+
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero p {
+        font-size: 0.95rem;
+    }
+
+    .filtros ul {
+        gap: 1rem;
+    }
+
+    .productos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 1rem;
+    }
+
+    .producto-imagen {
+        height: 150px;
+    }
+}
+
+/* Móviles (480px - 600px) */
+@media (max-width: 600px) {
+    .barra-nav .nav-ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.8rem;
+    }
+
+    .barra-nav a {
+        font-size: 0.85rem;
+    }
+}
+
+/* Móviles pequeños (320px - 480px) */
 @media (max-width: 480px) {
-    .hero { padding: 2rem 1rem; }
-    .productos-grid { grid-template-columns: repeat(2, 1fr); }
-    .filtros { padding: 0 1rem 0.5rem 1rem; }
-    .productos-wrapper { padding: 0 1rem; }
+    .barra-nav {
+        flex-direction: column;
+        padding: 0.8rem;
+    }
+
+    .icono {
+        width: 35px;
+    }
+
+    .barra-busqueda {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .nav-ul {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .barra-nav a {
+        font-size: 0.85rem;
+    }
+
+    .carrusel {
+        height: 200px;
+    }
+
+    .carrusel-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+    }
+
+    .carrusel-dot {
+        width: 6px;
+        height: 6px;
+    }
+
+    .contenido {
+        grid-template-columns: 1fr;
+        width: 95%;
+        gap: 12px;
+    }
+
+    .caja {
+        padding: 15px;
+    }
+
+    .hero {
+        padding: 2rem 1rem;
+    }
+
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .filtros {
+        padding: 0 1rem 0.5rem 1rem;
+    }
+
+    .productos-wrapper {
+        padding: 0 1rem;
+    }
+
+    .productos-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .producto-imagen {
+        height: 200px;
+    }
+}
+
+/* Móviles muy pequeños (menos de 320px) */
+@media (max-width: 320px) {
+    .barra-nav .nav-ul {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .nav-ul li {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .barra-busqueda {
+        max-width: 100%;
+    }
+
+    .hero h1 {
+        font-size: 1.5rem;
+    }
+
+    .btn-hero {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* Landscape para móviles */
+@media (max-width: 768px) and (orientation: landscape) {
+    .carrusel {
+        height: 250px;
+    }
+
+    .barra-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .contenido {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Pantallas grandes (1200px+) */
+@media (min-width: 1200px) {
+    .contenido {
+        width: 80%;
+        gap: 25px;
+    }
+
+    .productos-grid {
+        gap: 2rem;
+    }
+}
+
+/* Ajustes para imprimir */
+@media print {
+
+    .barra-nav,
+    .barra-nav-sec,
+    .carrusel,
+    .btn-agregar,
+    .filtros {
+        display: none;
+    }
+
+    .contenido {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .producto-card {
+        break-inside: avoid;
+    }
 }
