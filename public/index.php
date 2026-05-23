@@ -1,15 +1,42 @@
 <?php
-// index.php - SOLO presentación
+// index.php - Punto de entrada de la aplicación
 session_start();
+
 require_once __DIR__ . '/../includes/database.php';
-require_once __DIR__ . '/../includes/controllers/articuloController.php';
+require_once __DIR__ . '/../includes/controllers/ArticuloController.php';
 
-// Obtener datos del controlador
-$pdo = getConnection();
-$articuloController = new ArticuloController($pdo);
-$articulos = $articuloController->listarArticulos();
+spl_autoload_register(function ($class) {
+    $paths = [
+        __DIR__ . '/../includes/controllers/' . $class . '.php',
+        __DIR__ . '/../includes/models/' . $class . '.php',
+        __DIR__ . '/../includes/helpers/' . $class . '.php',
+    ];
+    
+    foreach ($paths as $path) {
+        if (file_exists($path)) {
+            require_once $path;
+            return;
+        }
+    }
+});
+
+// ============================================
+// LÓGICA DE NEGOCIO (separada de presentación)
+// ============================================
+
+try {
+    $pdo = getConnection();
+    $articuloController = new ArticuloController($pdo);
+    $articulos = $articuloController->listarArticulos();
+} catch (Exception $e) {
+    error_log("Error al cargar artículos: " . $e->getMessage());
+    $articulos = [];
+}
+
+// ============================================
+// VISTA (HTML)
+// ============================================
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -73,12 +100,12 @@ $articulos = $articuloController->listarArticulos();
                 <?php foreach ($articulos as $articulo): ?>
                     <div class="caja">
                         <div class="tooltip">
-                            <?php echo htmlspecialchars($articulo['descripcion']); ?>
+                            <?php echo $articulo['descripcion']; ?>
                         </div>
                         
                         <?php if ($articulo['imagen_url']): ?>
                             <img src="<?php echo $articulo['imagen_url']; ?>" 
-                                 alt="<?php echo htmlspecialchars($articulo['nombre']); ?>" 
+                                 alt="<?php echo $articulo['nombre']; ?>" 
                                  class="producto-imagen">
                         <?php else: ?>
                             <div class="imagen-placeholder">
@@ -86,7 +113,7 @@ $articulos = $articuloController->listarArticulos();
                             </div>
                         <?php endif; ?>
                         
-                        <h3><?php echo htmlspecialchars($articulo['nombre']); ?></h3>
+                        <h3><?php echo $articulo['nombre']; ?></h3>
                         <p class="precio">$<?php echo number_format($articulo['precio'], 2); ?></p>
                         <p class="stock">
                             <i class="fas fa-boxes"></i> Stock: <?php echo $articulo['stock']; ?> unidades
@@ -97,7 +124,7 @@ $articulos = $articuloController->listarArticulos();
                         
                         <button class="btn-carrito" 
                                 data-id="<?php echo $articulo['idArticulo']; ?>"
-                                data-nombre="<?php echo htmlspecialchars($articulo['nombre']); ?>"
+                                data-nombre="<?php echo $articulo['nombre']; ?>"
                                 data-precio="<?php echo $articulo['precio']; ?>"
                                 <?php echo ($articulo['stock'] <= 0) ? 'disabled' : ''; ?>>
                             <i class="fas fa-shopping-cart"></i>

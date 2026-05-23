@@ -1,6 +1,7 @@
 <?php
-
+// includes/controllers/ArticuloController.php
 require_once __DIR__ . '/../models/articulo.php';
+require_once __DIR__ . '/../helpers/validation.php';
 
 class ArticuloController {
     private $articuloModel;
@@ -29,15 +30,35 @@ class ArticuloController {
             $articulo['imagen_url'] = $this->getImagenUrl($articulo['idArticulo']);
         }
         
-        return $articulos;
+        // Validar y sanitizar datos antes de devolverlos
+        return ValidationHelper::validateArticulosArray($articulos);
+    }
+    
+    /**
+     * Obtener un producto por ID (validado)
+     */
+    public function obtenerArticulo($idArticulo) {
+        $id = ValidationHelper::validateId($idArticulo);
+        if (!$id) {
+            return null;
+        }
+        
+        $articulo = $this->articuloModel->obtenerPorId($id);
+        if (!$articulo) {
+            return null;
+        }
+        
+        $articulo['imagen_url'] = $this->getImagenUrl($articulo['idArticulo']);
+        return ValidationHelper::validateArticuloData($articulo);
     }
     
     /**
      * Obtener la URL de la imagen de un producto
      */
     private function getImagenUrl($idArticulo) {
-        if (isset($this->mapaImagenes[$idArticulo])) {
-            return 'assets/multimedia/pictures/articulos/' . $this->mapaImagenes[$idArticulo];
+        $id = ValidationHelper::validateId($idArticulo);
+        if ($id && isset($this->mapaImagenes[$id])) {
+            return 'assets/multimedia/pictures/articulos/' . $this->mapaImagenes[$id];
         }
         return null; // Usará placeholder
     }

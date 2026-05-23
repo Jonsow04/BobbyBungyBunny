@@ -1,0 +1,33 @@
+# 1. Activa el motor de reescritura de URLs de Apache
+RewriteEngine On
+
+# 2. Condición: Comprueba que la petición NO sea un archivo físico existente
+# (Permite que las imágenes, hojas de estilo CSS o scripts JS reales se carguen normalmente)
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# 3. Condición: Comprueba que la petición NO sea una carpeta física existente
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# 4. Regla de acción: Toma cualquier ruta solicitada y la redirige internamente a index.php
+# [QSA] adjunta los parámetros de consulta (ej. ?page=2) a la nueva ruta
+# [L] indica que es la última regla a procesar si se cumple la condición
+RewriteRule ^ index.php [QSA,L]
+
+# ==============================================================================
+# SECCIÓN DE SEGURIDAD
+# ==============================================================================
+
+# 1. Previene el "MIME sniffing". Fuerza al navegador a respetar estrictamente 
+# el tipo de contenido (Content-Type) enviado por el servidor, bloqueando la 
+# ejecución de scripts maliciosos disfrazados de imágenes o texto.
+Header always set X-Content-Type-Options "nosniff"
+
+# 2. Protege contra ataques de "Clickjacking". Prohíbe de forma absoluta que 
+# tu API o sitio web sea embebido dentro de marcos (iframes o frames) en otros 
+# sitios web no autorizados.
+Header always set X-Frame-Options "DENY"
+
+# 3. Activa y fuerza el filtro contra ataques de Cross-Site Scripting (XSS) 
+# en navegadores antiguos. Si detecta un código malicioso inyectado, el 
+# navegador bloqueará la renderización completa de la página en lugar de sanearla.
+Header always set X-XSS-Protection "1; mode=block"

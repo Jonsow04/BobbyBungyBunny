@@ -1,121 +1,33 @@
 <?php
 
-require_once __DIR__ . '/../models/pedido.php';
-require_once __DIR__ . '/../models/usuario.php';
-require_once __DIR__ . '/../helpers/sessionHelper.php';
-
-class CheckoutController {
-    private $pdo;
-    private $pedidoModel;
-    private $usuarioModel;
+/**
+ * Obtiene la conexión a la base de datos
+ * @return PDO Objeto de conexión PDO
+ */
+function getConnection() {
+    // Configuración de la base de datos
+    $host = 'localhost';
+    $dbname = 'bunnydotcom';
+    $user = 'adminRabbit';
+    $pass = 'jonc-Esp32-arD';
     
-    public function __construct($pdo) {
-        $this->pdo = $pdo;
-        $this->pedidoModel = new Pedido($pdo);
-        $this->usuarioModel = new Usuario($pdo);
-        SessionHelper::iniciar();
-    }
-    
-    /**
-     * Verificar si el usuario está logueado
-     */
-    public function verificarLogin() {
-        if (!isset($_SESSION['usuario_id'])) {
-            $_SESSION['checkout_redirect'] = true;
-            header('Location: login.php');
-            exit();
-        }
-        return $_SESSION['usuario_id'];
-    }
-    
-    /**
-     * Obtener datos del usuario para el checkout
-     */
-    public function getDatosUsuario() {
-        $usuarioId = $_SESSION['usuario_id'] ?? null;
-        if (!$usuarioId) return null;
+    try {
+        // Crear conexión PDO
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $pass);
         
-        $usuario = $this->usuarioModel->obtenerPorId($usuarioId);
-        $direcciones = $this->usuarioModel->obtenerDirecciones($usuarioId);
+        // Configurar PDO para que lance excepciones en caso de error
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-        return [
-            'usuario' => $usuario,
-            'direcciones' => $direcciones,
-            'direccion_principal' => $direcciones[0] ?? null
-        ];
-    }
-    
-    /**
-     * Procesar el pedido
-     */
-    public function procesarPedido($carritoItems, $direccionCompleta, $total) {
-        $usuarioId = $_SESSION['usuario_id'] ?? null;
+        // Configurar el modo de fetch por defecto (asociativo)
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         
-        if (!$usuarioId) {
-            return ['success' => false, 'error' => 'Usuario no autenticado'];
-        }
+        return $pdo;
         
-        if (empty($carritoItems)) {
-            return ['success' => false, 'error' => 'El carrito está vacío'];
-        }
+    } catch (PDOException $e) {
+        error_log("Error de conexión a la base de datos: " . $e->getMessage());
         
-        try {
-            $this->pdo->beginTransaction();
-            
-            // 1. Actualizar stock
-            $detallesStock = [];
-            foreach ($carritoItems as $item) {
-                $detallesStock[] = [
-                    'idArticulo' => $item['id'],
-                    'cantidad' => $item['cantidad']
-                ];
-            }
-            $this->pedidoModel->actualizarStock($detallesStock);
-            
-            // 2. Crear el pedido
-            $pedidoId = $this->pedidoModel->crear($usuarioId, $direccionCompleta, $total);
-            
-            // 3. Agregar detalles del pedido
-            foreach ($carritoItems as $item) {
-                $this->pedidoModel->agregarDetalle(
-                    $pedidoId,
-                    $item['id'],
-                    $item['cantidad'],
-                    $item['precio']
-                );
-            }
-            
-            // 4. Vaciar el carrito (BD o sesión)
-            $this->vaciarCarrito($usuarioId);
-            
-            $this->pdo->commit();
-            
-            return [
-                'success' => true,
-                'pedido_id' => $pedidoId
-            ];
-            
-        } catch (Exception $e) {
-            $this->pdo->rollBack();
-            return [
-                'success' => false,
-                'error' => $e->getMessage()
-            ];
-        }
-    }
-    
-    /**
-     * Vaciar carrito después de la compra
-     */
-    private function vaciarCarrito($usuarioId) {
-        // Eliminar carrito de BD
-        $sql = "DELETE FROM detallecarrito WHERE idCarrito IN 
-                (SELECT idCarrito FROM carrito WHERE idUsuario = :usuarioId)";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([':usuarioId' => $usuarioId]);
-        
-        // Limpiar sesión
-        unset($_SESSION['carrito_invitado']);
+        // Mostrar un mensaje amigable
+        die("Error de conexión a la base de datos. Por favor, intenta más tarde.");
     }
 }
 ?>

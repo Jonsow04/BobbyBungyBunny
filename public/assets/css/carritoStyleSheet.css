@@ -207,55 +207,185 @@ main {
 }
 
 /* AQUÍ ESCRIBEN LOS ESTILOS EXTRA QUE NECESITEN */
-.confirmacion-container {
-    max-width: 800px;
-    margin: 3rem auto;
-    padding: 2rem;
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    text-align: center;
+.carrito-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
 }
 
-.icono-exito {
-    font-size: 5rem;
-    color: #4CAF50;
+.carrito-titulo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: var(--cafe-noir);
+    margin-bottom: 2rem;
+}
+
+.carrito-vacio {
+    text-align: center;
+    padding: 4rem;
+    background: white;
+    border-radius: 16px;
+}
+
+.carrito-vacio i {
+    font-size: 4rem;
+    color: var(--tan);
     margin-bottom: 1rem;
 }
 
-.pedido-info {
-    background: var(--hueso);
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin: 1.5rem 0;
-    text-align: left;
+.carrito-vacio p {
+    font-size: 1.2rem;
+    color: var(--marron-acento);
+    margin-bottom: 1.5rem;
 }
 
-.btn-seguir {
-    display: inline-block;
+.btn-seguir-comprando {
+    display: flex-inline;
     background-color: var(--cafe-noir);
     color: white;
-    padding: 0.8rem 1.8rem;
-    border-radius: 30px;
+    padding: 0.8rem 1.5rem;
+    border-radius: 15px;
     text-decoration: none;
-    margin: 0.5rem;
+    transition: background-color 0.3s;
 }
 
-.btn-ver-pedidos {
+.btn-seguir-comprando:hover {
     background-color: var(--verde-moss);
 }
 
-table {
+.carrito-tabla {
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-th,
-td {
-    padding: 0.5rem;
+.carrito-tabla th {
+    background-color: var(--cafe-noir);
+    color: white;
+    padding: 1rem;
     text-align: left;
-    border-bottom: 1px solid var(--tan);
+}
+
+.carrito-tabla td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--hueso);
+    vertical-align: middle;
+}
+
+.carrito-tabla tr:last-child td {
+    border-bottom: none;
+}
+
+.cantidad-input {
+    width: 60px;
+    padding: 0.3rem;
+    border: 1px solid var(--tan);
+    border-radius: 6px;
+    text-align: center;
+}
+
+.btn-eliminar {
+    background: none;
+    border: none;
+    color: #e74c3c;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.carrito-resumen {
+    margin-top: 2rem;
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin-left: auto;
+}
+
+.resumen-linea {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+}
+
+.resumen-total {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--cafe-noir);
+    border-top: 2px solid var(--tan);
+    margin-top: 0.5rem;
+    padding-top: 0.8rem;
+}
+
+.btn-checkout {
+    width: 100%;
+    background-color: var(--verde-moss);
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.3s;
+}
+
+.btn-checkout:hover {
+    background-color: var(--verde-kombu);
+    transition: background-color 0.3s;
+}
+
+.btn-vaciar {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;;
+    background-color: var(--cafe-noir);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: background-color 0.3s;
+}
+
+.btn-vaciar:hover {
+    background-color: var(--verde-moss);
+    transition: background-color 0.3s;
+}
+
+.acciones-header {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.mensaje-login {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.mensaje-login a {
+    color: var(--cafe-noir);
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+
+    .carrito-tabla th,
+    .carrito-tabla td {
+        padding: 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    .carrito-resumen {
+        max-width: 100%;
+    }
 }
 
 /* Responsive para tablets */

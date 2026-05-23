@@ -207,195 +207,55 @@ main {
 }
 
 /* AQUÍ ESCRIBEN LOS ESTILOS EXTRA QUE NECESITEN */
-.pedidos-container {
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-}
-
-.pedidos-titulo {
-    font-family: 'Nunito', sans-serif;
-    font-size: 2rem;
-    color: var(--cafe-noir);
-    margin-bottom: 2rem;
-}
-
-.pedidos-grid {
-    display: grid;
-    gap: 1.5rem;
-}
-
-.pedido-card {
+.confirmacion-container {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2rem;
     background: white;
-    border-radius: 16px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
-.pedido-card:hover {
-    transform: translateY(-4px);
-}
-
-.pedido-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid var(--tan);
+.icono-exito {
+    font-size: 5rem;
+    color: #4CAF50;
     margin-bottom: 1rem;
 }
 
-.pedido-numero {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 800;
-    font-size: 1.1rem;
-    color: var(--cafe-noir);
+.pedido-info {
+    background: var(--hueso);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    text-align: left;
 }
 
-.pedido-fecha {
-    color: var(--marron-acento);
-    font-size: 0.85rem;
-}
-
-.pedido-estatus {
+.btn-seguir {
     display: inline-block;
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-
-.estatus-pendiente {
-    background-color: #fff3cd;
-    color: #856404;
-}
-
-.estatus-pagado {
-    background-color: #d4edda;
-    color: #155724;
-}
-
-.estatus-enviado {
-    background-color: #cce5ff;
-    color: #004085;
-}
-
-.estatus-entregado {
-    background-color: #d4edda;
-    color: #155724;
-}
-
-.estatus-cancelado {
-    background-color: #f8d7da;
-    color: #721c24;
-}
-
-.pedido-total {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: var(--verde-moss);
-}
-
-.btn-ver-detalle {
     background-color: var(--cafe-noir);
     color: white;
-    border: none;
-    padding: 0.5rem 1rem;
+    padding: 0.8rem 1.8rem;
     border-radius: 30px;
-    cursor: pointer;
-    transition: background-color 0.3s;
     text-decoration: none;
-    display: inline-block;
-    font-size: 0.85rem;
+    margin: 0.5rem;
 }
 
-.btn-ver-detalle:hover {
+.btn-ver-pedidos {
     background-color: var(--verde-moss);
 }
 
-.sin-pedidos {
-    text-align: center;
-    padding: 4rem;
-    background: white;
-    border-radius: 16px;
-}
-
-.sin-pedidos i {
-    font-size: 4rem;
-    color: var(--tan);
-    margin-bottom: 1rem;
-}
-
-/* Modal de detalles */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content {
-    background: white;
-    border-radius: 16px;
-    max-width: 600px;
-    width: 90%;
-    max-height: 80vh;
-    overflow-y: auto;
-    padding: 1.5rem;
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--tan);
-}
-
-.modal-header h3 {
-    font-family: 'Nunito', sans-serif;
-    color: var(--cafe-noir);
-}
-
-.modal-close {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: var(--marron-acento);
-}
-
-.detalle-tabla {
+table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 1rem;
 }
 
-.detalle-tabla th,
-.detalle-tabla td {
+th,
+td {
     padding: 0.5rem;
     text-align: left;
     border-bottom: 1px solid var(--tan);
-}
-
-.detalle-tabla th {
-    background-color: var(--hueso);
-}
-
-@media (max-width: 768px) {
-    .pedido-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
 }
 
 /* Responsive para tablets */

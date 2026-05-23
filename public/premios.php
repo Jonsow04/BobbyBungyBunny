@@ -25,7 +25,7 @@
             </form>
             <ul class="nav-ul">
                 <li><a href="#"><i class="fas fa-shopping-bag"></i></a></li>
-                <li><a href="#">Registrarse</a></li>
+                <li><a href="register.php">Registrarse</a></li>
                 <li><a href="login.php">Iniciar sesión</a></li>
             </ul>
         </nav>
