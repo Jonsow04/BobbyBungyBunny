@@ -47,10 +47,10 @@
             <div class="divisor"><span>✦</span></div>
 
             <div class="campo">
-                <label for="correo">Usuario</label>
+                <label for="correo">Correo electrónico</label>
                 <div class="input-wrap">
                     <i class="fas fa-envelope"></i>
-                    <input type="text" id="correo" placeholder="Nombre de usuario" autocomplete="username">
+                    <input type="text" id="correo" placeholder="Ingresa tu correo electrónico" autocomplete="username">
                 </div>
             </div>
 

@@ -97,6 +97,66 @@
                 </div>
             </div>
 
+            <!-- Sección de dirección (después de los campos de usuario) -->
+            <div class="divisor"><span>✦</span></div>
+            <h3>Dirección de envío</h3>
+
+            <div class="campo">
+                <label for="calle">Calle</label>
+                <div class="input-wrap">
+                    <i class="fas fa-road"></i>
+                    <input type="text" id="calle" name="calle" placeholder="Calle" value="<?php echo $_SESSION['datos_registro']['calle'] ?? ''; ?>" required>
+                </div>
+                <small id="calleMessage" class="error-message"></small>
+            </div>
+
+            <div class="campo">
+                <label for="num_casa">Número de casa</label>
+                <div class="input-wrap">
+                    <i class="fas fa-hashtag"></i>
+                    <input type="text" id="num_casa" name="num_casa" placeholder="Número exterior e interior" value="<?php echo $_SESSION['datos_registro']['num_casa'] ?? ''; ?>" required>
+                </div>
+                <small id="numCasaMessage" class="error-message"></small>
+            </div>
+
+            <div class="campo">
+                <label for="colonia">Colonia</label>
+                <div class="input-wrap">
+                    <i class="fas fa-location-dot"></i>
+                    <input type="text" id="colonia" name="colonia" placeholder="Colonia" value="<?php echo $_SESSION['datos_registro']['colonia'] ?? ''; ?>" required>
+                </div>
+                <small id="coloniaMessage" class="error-message"></small>
+            </div>
+
+            <div class="campo">
+                <label for="cp">Código Postal</label>
+                <div class="input-wrap">
+                    <i class="fas fa-mail-bulk"></i>
+                    <input type="text" id="cp" name="cp" placeholder="Código Postal (5 dígitos)" value="<?php echo $_SESSION['datos_registro']['cp'] ?? ''; ?>" required>
+                </div>
+                <small id="cpMessage" class="error-message"></small>
+            </div>
+
+            <div class="campo">
+                <label for="ciudad">Ciudad</label>
+                <div class="input-wrap">
+                    <i class="fas fa-city"></i>
+                    <input type="text" id="ciudad" name="ciudad" placeholder="Ciudad" value="<?php echo $_SESSION['datos_registro']['ciudad'] ?? ''; ?>" required>
+                </div>
+                <small id="ciudadMessage" class="error-message"></small>
+            </div>
+
+            <div class="campo">
+                <label for="estado">Estado</label>
+                <div class="input-wrap">
+                    <i class="fas fa-map"></i>
+                    <input type="text" id="estado" name="estado" placeholder="Estado" value="<?php echo $_SESSION['datos_registro']['estado'] ?? ''; ?>" required>
+                </div>
+                <small id="estadoMessage" class="error-message"></small>
+            </div>
+
+            <!-- Contraseña -->
+
             <div class="campo">
                 <label for="contrasena">Contraseña</label>
                 <div class="input-wrap">
@@ -116,6 +176,17 @@
             <span id="message"></span>
             <button class="btn-reg">Registrar</button>
 
+            <?php if (isset($_SESSION['errores_registro'])): ?>
+                <div class="alert alert-danger">
+                    <ul>
+                        <?php foreach ($_SESSION['errores_registro'] as $error): ?>
+                            <li><?php echo $error; ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                <?php unset($_SESSION['errores_registro']); ?>
+            <?php endif; ?>
+            
             <p class="login-link">
                 ¿Ya tienes cuenta? <a href="login.php">Iniciar sesión</a>
             </p>
