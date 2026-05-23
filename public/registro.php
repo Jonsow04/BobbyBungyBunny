@@ -50,10 +50,50 @@
             <div class="divisor"><span>✦</span></div>
 
             <div class="campo">
-                <label for="user">Usuario</label>
+                <label for="nombre">Nombre</label>
+                <div class="input-wrap">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="nombre" placeholder="Tu nombre" required>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label for="apellido_paterno">Apellido paterno</label>
+                <div class="input-wrap">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="apellido_paterno" placeholder="Apellido paterno" required>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label for="apellido_materno">Apellido materno (opcional)</label>
+                <div class="input-wrap">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="apellido_materno" placeholder="Apellido materno (opcional)">
+                </div>
+            </div>
+
+            <div class="campo">
+                <label for="fecha_nacimiento">Fecha de nacimiento</label>
+                <div class="input-wrap">
+                    <i class="fas fa-calendar-alt"></i>
+                    <input type="date" id="fecha_nacimiento" required>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label for="email">Correo electrónico</label>
                 <div class="input-wrap">
                     <i class="fas fa-envelope"></i>
-                    <input type="text" id="user" placeholder="usuario" required>
+                    <input type="email" id="email" placeholder="correo@ejemplo.com" required>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label for="celular">Celular</label>
+                <div class="input-wrap">
+                    <i class="fas fa-phone-alt"></i>
+                    <input type="tel" id="celular" placeholder="+52 123 456 7890" required>
                 </div>
             </div>
 
