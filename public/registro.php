@@ -9,10 +9,11 @@ include 'includes/header.php';
 <html lang="es">
 <head>
     <script src="assets/js/registro.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="assets\css\registroUserStyleSheet.css">
 </head>
 <body>
     <div class="auth-wrapper">
-        <div class="auth-card registro">
+        <div class="auth-card-registro">
             <h1>Bienvenido</h1>
             <p class="subtitulo">Registra tu cuenta en Conejos.com</p>
             <div class="divisor"><span>✦</span></div>
