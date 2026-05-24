@@ -1,5 +1,30 @@
 <?php
 session_start();
+
+// Si la petición incluye ?format=json, devolvemos solo los datos en JSON y salimos
+$formato = $_GET['format'] ?? '';
+if ($formato === 'json') {
+    require_once __DIR__ . '/../includes/config.php';
+    require_once __DIR__ . '/../includes/models/articulo.php';
+    
+    header('Content-Type: application/json');
+    header('Access-Control-Allow-Origin: *');
+    
+    try {
+        $pdo = getConnection();
+        $articuloModel = new Articulo($pdo);
+        $articulos = $articuloModel->obtenerTodos();
+        echo json_encode($articulos, JSON_UNESCAPED_UNICODE);
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(['error' => $e->getMessage()]);
+    }
+    exit; // Termina la ejecución aquí
+}
+
+// Si no se pidió JSON, continúa con la lógica normal de mostrar HTML
+require_once __DIR__ . '/../includes/config.php';
+
 $titulo = 'Conejos.com';
 $js_adicional = 'assets/js/registro.js';
 include 'includes/header.php';

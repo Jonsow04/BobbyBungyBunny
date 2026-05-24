@@ -48,7 +48,7 @@
     <main>
         <div class="hero">
             <div class="hero-content">
-                <h1>Limpieza y Cuidado 🧼</h1>
+                <h1>Limpieza y Cuidado </h1>
                 <p>Mantén a tu conejo sano y su entorno impecable con nuestros productos especializados.</p>
                 <button class="btn-hero" onclick="document.querySelector('.productos-wrapper').scrollIntoView({behavior: 'smooth'})">
                     Ver productos →
@@ -71,16 +71,16 @@
             descripcion: "Mantén a tu conejo sano y su entorno impecable con nuestros productos mas usados.",
             seccion: "limpieza",
             categoriasMap: {
-                18: { nombre: 'Desinfectantes de Entorno', filtro: 'DesinfectantesEntorno' },
-                19: { nombre: 'bandeja Sanitaria', filtro: 'Baño' },
-                20: { nombre: 'Cepillos y peines', filtro: 'Cepillos' },
-                21: { nombre: 'Cortauñas', filtro: 'Cortauñas' },
-                22: { nombre: 'Limpieza en seco', filtro: 'Toallitas' },
-                23: { nombre: 'higiene dental', filtro: 'higieneDental' },
-                24: { nombre: 'Antimiasis', filtro: 'Antimiasis' },
-                25: { nombre: 'Cuidado de patas', filtro: 'Patas' }
+                19: { nombre: 'Desinfectantes de Entorno', filtro: 'DesinfectantesEntorno' },
+                20: { nombre: 'bandeja Sanitaria', filtro: 'Baño' },
+                21: { nombre: 'Cepillos y peines', filtro: 'Cepillos' },
+                22: { nombre: 'Cortauñas', filtro: 'Cortauñas' },
+                23: { nombre: 'Limpieza en seco', filtro: 'Toallitas' },
+                24: { nombre: 'higiene dental', filtro: 'higieneDental' },
+                25: { nombre: 'Antimiasis', filtro: 'Antimiasis' },
+                26: { nombre: 'Cuidado de patas', filtro: 'Patas' }
             },
-            idCategoriasPermitidas: [18, 19, 20, 21, 22, 23, 24, 25],
+            idCategoriasPermitidas: [19, 20, 21, 22, 23, 24, 25, 26],
         };
     </script>
     <script src="assets/js/productos.js"></script>

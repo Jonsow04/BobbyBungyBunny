@@ -48,7 +48,7 @@
     <main>
         <div class="hero">
             <div class="hero-content">
-                <h1>Juguetes Divertidos 🎾</h1>
+                <h1>Juguetes Divertidos </h1>
                 <p>Estimula la mente y el instinto de tu conejo con nuestros juguetes seguros.</p>
                 <button class="btn-hero" onclick="document.querySelector('.productos-wrapper').scrollIntoView({behavior: 'smooth'})">
                     Ver juguetes →

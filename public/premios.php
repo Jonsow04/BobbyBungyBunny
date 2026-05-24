@@ -44,7 +44,7 @@
     <main>
         <div class="hero">
             <div class="hero-content">
-                <h1>Premios Deliciosos 🥕</h1>
+                <h1>Premios Deliciosos </h1>
                 <p>Snacks naturales y galletas que tus conejos amarán. ¡Un premio sano y sabroso!</p>
                 <button class="btn-hero" onclick="document.querySelector('.productos-wrapper').scrollIntoView({behavior: 'smooth'})">
                     Explorar premios →
