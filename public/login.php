@@ -1,76 +1,99 @@
+<?php 
+session_start();
+$titulo = 'Iniciar sesión | Bobby Bunny Shop';
+include 'includes/header.php';
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio de sesión | Bobby Bunny Shop</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./assets/css/loginUserStyleSheet.css">
-</head>
-
 <body>
-    <header>
-        <nav class="barra-nav">
-            <a href="index.php">
-                <img src="assets/multimedia/pictures/icon.png" alt="Bobby Bunny" class="icono">
-            </a>
-            <form class="barra-busqueda" action="">
-                <input type="search" placeholder="Buscar productos...">
-                <button type="submit" class="boton-busqueda">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
-            <ul class="nav-ul">
-                <li><a href="registro.php">Registrarse</a></li>
-            </ul>
-        </nav>
-
-        <nav class="barra-nav-sec">
-            <ul class="nav-ul">
-                <li><a href="piensos.php">Piensos</a></li>
-                <li><a href="premios.php">Premios</a></li>
-                <li><a href="juguetes.php">Juguetes</a></li>
-                <li><a href="habitats.php">Habitats</a></li>
-                <li><a href="limpieza.php">Limpieza y cuidado</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <div class="login-wrapper">
-        <div class="login-card">
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            
             <h1>Bienvenido</h1>
             <p class="subtitulo">Inicia sesión en Conejos.com</p>
             
             <div class="divisor"><span>✦</span></div>
 
-            <div class="campo">
-                <label for="correo">Correo electrónico</label>
-                <div class="input-wrap">
-                    <i class="fas fa-envelope"></i>
-                    <input type="text" id="correo" placeholder="Ingresa tu correo electrónico" autocomplete="username">
+            <form action="procesarLogin.php" method="POST" id="loginForm">
+                <div class="campo">
+                    <label for="email">Correo electrónico</label>
+                    <div class="input-wrap">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" name="email" placeholder="correo@ejemplo.com" value="<?php echo isset($_SESSION['datos_login']['email']) ? htmlspecialchars($_SESSION['datos_login']['email']) : ''; ?>" autocomplete="username" required>
+                    </div>
+                    <small id="emailMessage" class="error-message"></small>
                 </div>
-            </div>
 
-            <div class="campo">
-                <label for="contrasena">Contraseña</label>
-                <div class="input-wrap">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" id="contrasena" placeholder="••••••••" autocomplete="current-password">
+                <div class="campo">
+                    <label for="contrasena">Contraseña</label>
+                    <div class="input-wrap">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="contrasena" name="contrasena" placeholder="••••••••" autocomplete="current-password" required>
+                        <button type="button" class="toggle-pass" id="togglePassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <small id="passwordMessage" class="error-message"></small>
                 </div>
-            </div>
 
-            <button class="btn-login">Iniciar sesión</button>
+                <button type="submit" class="btn-auth">Iniciar sesión</button>
 
-            <p class="registro-link">
-                ¿No tienes cuenta? <a href="registro.php">Regístrate aquí</a>
-            </p>
+                <!-- Mostrar errores de login -->
+                <?php if (isset($_SESSION['errores_login']) && !empty($_SESSION['errores_login'])): ?>
+                    <div class="alert alert-danger">
+                        <strong>⚠️ Error al iniciar sesión</strong>
+                        <ul>
+                            <?php foreach ($_SESSION['errores_login'] as $error): ?>
+                                <li><?php echo htmlspecialchars($error); ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                    <?php unset($_SESSION['errores_login']); ?>
+                <?php endif; ?>
+
+                <!-- Mostrar mensaje de registro exitoso -->
+                <?php if (isset($_SESSION['registro_exitoso'])): ?>
+                    <div class="alert alert-success">
+                        <strong>✅ ¡Cuenta creada exitosamente!</strong>
+                        <p style="margin: 10px 0 0 0;">Ahora puedes iniciar sesión con tu correo y contraseña.</p>
+                    </div>
+                    <?php unset($_SESSION['registro_exitoso']); ?>
+                <?php endif; ?>
+
+                <!-- Mostrar mensaje de cierre de sesión -->
+                <?php if (isset($_SESSION['logout_exitoso'])): ?>
+                    <div class="alert alert-success">
+                        <strong>✅ Sesión cerrada correctamente</strong>
+                        <p style="margin: 10px 0 0 0;">Has cerrado sesión exitosamente.</p>
+                    </div>
+                    <?php unset($_SESSION['logout_exitoso']); ?>
+                <?php endif; ?>
+
+                <p class="auth-link">
+                    ¿No tienes cuenta? <a href="registro.php">Regístrate aquí</a>
+                </p>
+            </form>
         </div>
     </div>
 
-    <footer>© 2026 Bobby Bunny Shop · Todo para tu conejo</footer>
+    <?php include 'includes/footer.php'; ?>
+
+    <script>
+        // Mostrar/ocultar contraseña
+        const togglePassword = document.getElementById('togglePassword');
+        const password = document.getElementById('contrasena');
+        
+        if (togglePassword && password) {
+            togglePassword.addEventListener('click', function() {
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+                this.querySelector('i').classList.toggle('fa-eye');
+                this.querySelector('i').classList.toggle('fa-eye-slash');
+            });
+        }
+    </script>
 </body>
 
 </html>

@@ -1,6 +1,10 @@
 <?php
 session_start();
-require_once 'includes/config.php'; // Aquí va tu conexión a la BD
+require_once '../includes/config.php';
+
+// === DEPURACIÓN ===
+error_log("=== PROCESAR REGISTRO ===");
+error_log("POST: " . print_r($_POST, true));
 
 // ========== FUNCIONES DE VALIDACIÓN ==========
 
@@ -38,7 +42,7 @@ function validarApellidoPaterno($apellido) {
 
 function validarApellidoMaterno($apellido) {
     if (empty(trim($apellido))) {
-        return true; // Opcional, puede estar vacío
+        return true;
     }
     if (strlen($apellido) > 45) {
         return "El apellido materno no debe exceder 45 caracteres";
@@ -49,7 +53,7 @@ function validarApellidoMaterno($apellido) {
     return true;
 }
 
-function validarEmail($email, $conn) {
+function validarEmail($email, $pdo) {
     $email = trim($email);
     if (empty($email)) {
         return "El correo electrónico es obligatorio";
@@ -67,16 +71,12 @@ function validarEmail($email, $conn) {
     }
     
     // Verificar si el email ya existe
-    $stmt = $conn->prepare("SELECT idUsuario FROM usuario WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $stmt->store_result();
+    $stmt = $pdo->prepare("SELECT idUsuario FROM usuario WHERE email = ?");
+    $stmt->execute([$email]);
     
-    if ($stmt->num_rows > 0) {
-        $stmt->close();
-        return "Este correo ya está registrado";
+    if ($stmt->rowCount() > 0) {
+        return "email_duplicado"; // Código especial
     }
-    $stmt->close();
     
     return true;
 }
@@ -87,7 +87,6 @@ function validarCelular($celular) {
         return "El número de celular es obligatorio";
     }
     
-    // Eliminar caracteres no numéricos
     $cleanNumber = preg_replace('/[^0-9]/', '', $celular);
     
     if (!preg_match('/^[0-9]{10}$/', $cleanNumber)) {
@@ -145,51 +144,98 @@ function validarContrasena($password, $confirmPassword) {
     return true;
 }
 
-function validarDireccion($datos) {
-    $errores = [];
-    
-    if (empty($datos['calle'])) {
-        $errores['calle'] = "La calle es obligatoria";
-    } elseif (strlen($datos['calle']) > 50) {
-        $errores['calle'] = "La calle no debe exceder 50 caracteres";
+// ========== VALIDACIONES DE DIRECCIÓN ==========
+
+function validarCalle($calle) {
+    $calle = trim($calle);
+    if (empty($calle)) {
+        return "La calle es obligatoria";
     }
-    
-    if (empty($datos['numCasa'])) {
-        $errores['numCasa'] = "El número de casa es obligatorio";
-    } elseif (strlen($datos['numCasa']) > 10) {
-        $errores['numCasa'] = "El número de casa no debe exceder 10 caracteres";
+    if (strlen($calle) > 50) {
+        return "La calle no debe exceder 50 caracteres";
     }
-    
-    if (empty($datos['colonia'])) {
-        $errores['colonia'] = "La colonia es obligatoria";
-    } elseif (strlen($datos['colonia']) > 50) {
-        $errores['colonia'] = "La colonia no debe exceder 50 caracteres";
+    return true;
+}
+
+function validarNumCasa($numCasa) {
+    $numCasa = trim($numCasa);
+    if (empty($numCasa)) {
+        return "El número de casa es obligatorio";
     }
-    
-    if (empty($datos['cp'])) {
-        $errores['cp'] = "El código postal es obligatorio";
-    } elseif (!preg_match('/^[0-9]{5}$/', $datos['cp'])) {
-        $errores['cp'] = "El código postal debe tener 5 dígitos";
+    if (!preg_match('/^\d+$/', $numCasa)) {
+        return "El número de casa solo debe contener números";
     }
-    
-    if (empty($datos['ciudad'])) {
-        $errores['ciudad'] = "La ciudad es obligatoria";
-    } elseif (strlen($datos['ciudad']) > 30) {
-        $errores['ciudad'] = "La ciudad no debe exceder 30 caracteres";
+    if (strlen($numCasa) > 5) {
+        return "El número de casa no debe exceder 5 dígitos";
     }
-    
-    if (empty($datos['estado'])) {
-        $errores['estado'] = "El estado es obligatorio";
-    } elseif (strlen($datos['estado']) > 30) {
-        $errores['estado'] = "El estado no debe exceder 30 caracteres";
+    return true;
+}
+
+function validarColonia($colonia) {
+    $colonia = trim($colonia);
+    if (empty($colonia)) {
+        return "La colonia es obligatoria";
     }
-    
-    return empty($errores) ? true : $errores;
+    if (strlen($colonia) > 50) {
+        return "La colonia no debe exceder 50 caracteres";
+    }
+    if (!preg_match("/^[a-zA-ZáéíóúñÁÉÍÓÚÑ\s]+$/", $colonia)) {
+        return "La colonia solo puede contener letras";
+    }
+    return true;
+}
+
+function validarCP($cp) {
+    $cp = trim($cp);
+    if (empty($cp)) {
+        return "El código postal es obligatorio";
+    }
+    if (!preg_match('/^\d{5}$/', $cp)) {
+        return "El código postal debe tener 5 dígitos";
+    }
+    return true;
+}
+
+function validarCiudad($ciudad) {
+    $ciudad = trim($ciudad);
+    if (empty($ciudad)) {
+        return "La ciudad es obligatoria";
+    }
+    if (strlen($ciudad) > 30) {
+        return "La ciudad no debe exceder 30 caracteres";
+    }
+    if (!preg_match("/^[a-zA-ZáéíóúñÁÉÍÓÚÑ\s]+$/", $ciudad)) {
+        return "La ciudad solo puede contener letras";
+    }
+    return true;
+}
+
+function validarEstado($estado) {
+    $estado = trim($estado);
+    if (empty($estado)) {
+        return "El estado es obligatorio";
+    }
+    if (strlen($estado) > 30) {
+        return "El estado no debe exceder 30 caracteres";
+    }
+    if (!preg_match("/^[a-zA-ZáéíóúñÁÉÍÓÚÑ\s]+$/", $estado)) {
+        return "El estado solo puede contener letras";
+    }
+    return true;
 }
 
 // ========== PROCESAR FORMULARIO ==========
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    try {
+        $pdo = getConnection();
+    } catch (Exception $e) {
+        error_log("Error de conexión: " . $e->getMessage());
+        $_SESSION['errores_registro'] = ['general' => 'Error de conexión a la base de datos'];
+        header('Location: registro.php');
+        exit();
+    }
     
     // Recibir datos del formulario
     $nombre = $_POST['nombre'] ?? '';
@@ -202,14 +248,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $confirmPassword = $_POST['contrasenaconfirm'] ?? '';
     
     // Datos de dirección
-    $direccion = [
-        'calle' => $_POST['calle'] ?? '',
-        'numCasa' => $_POST['num_casa'] ?? '',
-        'colonia' => $_POST['colonia'] ?? '',
-        'cp' => $_POST['cp'] ?? '',
-        'ciudad' => $_POST['ciudad'] ?? '',
-        'estado' => $_POST['estado'] ?? ''
-    ];
+    $calle = $_POST['calle'] ?? '';
+    $numCasa = $_POST['num_casa'] ?? '';
+    $colonia = $_POST['colonia'] ?? '';
+    $cp = $_POST['cp'] ?? '';
+    $ciudad = $_POST['ciudad'] ?? '';
+    $estado = $_POST['estado'] ?? '';
     
     $errores = [];
     
@@ -223,7 +267,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $validacionApMat = validarApellidoMaterno($apMat);
     if ($validacionApMat !== true) $errores['apellido_materno'] = $validacionApMat;
     
-    $validacionEmail = validarEmail($email, $conn);
+    $validacionEmail = validarEmail($email, $pdo);
     if ($validacionEmail !== true) $errores['email'] = $validacionEmail;
     
     $validacionCelular = validarCelular($celular);
@@ -236,101 +280,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($validacionPassword !== true) $errores['contrasena'] = $validacionPassword;
     
     // Validaciones de dirección
-    $validacionDireccion = validarDireccion($direccion);
-    if ($validacionDireccion !== true) {
-        $errores = array_merge($errores, $validacionDireccion);
-    }
+    $validacionCalle = validarCalle($calle);
+    if ($validacionCalle !== true) $errores['calle'] = $validacionCalle;
+    
+    $validacionNumCasa = validarNumCasa($numCasa);
+    if ($validacionNumCasa !== true) $errores['num_casa'] = $validacionNumCasa;
+    
+    $validacionColonia = validarColonia($colonia);
+    if ($validacionColonia !== true) $errores['colonia'] = $validacionColonia;
+    
+    $validacionCP = validarCP($cp);
+    if ($validacionCP !== true) $errores['cp'] = $validacionCP;
+    
+    $validacionCiudad = validarCiudad($ciudad);
+    if ($validacionCiudad !== true) $errores['ciudad'] = $validacionCiudad;
+    
+    $validacionEstado = validarEstado($estado);
+    if ($validacionEstado !== true) $errores['estado'] = $validacionEstado;
     
     // Si hay errores, guardar en sesión y redirigir
     if (!empty($errores)) {
+        error_log("ERRORES ENCONTRADOS: " . print_r($errores, true));
         $_SESSION['errores_registro'] = $errores;
         $_SESSION['datos_registro'] = $_POST;
         header('Location: registro.php');
         exit();
     }
     
-    // ========== INICIAR TRANSACCIÓN ==========
-    $conn->begin_transaction();
-    
+    // ========== INICIAR TRANSACCIÓN CON PDO ==========
     try {
+        $pdo->beginTransaction();
+        
         // 1. Insertar dirección
-        $stmt = $conn->prepare("INSERT INTO direccion (calle, numCasa, colonia, cp, ciudad, estado) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssss", 
-            $direccion['calle'], 
-            $direccion['numCasa'], 
-            $direccion['colonia'], 
-            $direccion['cp'], 
-            $direccion['ciudad'], 
-            $direccion['estado']
-        );
+        $stmt = $pdo->prepare("INSERT INTO direccion (calle, numCasa, colonia, cp, ciudad, estado) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$calle, $numCasa, $colonia, $cp, $ciudad, $estado]);
+        $idDireccion = $pdo->lastInsertId();
+        error_log("Dirección insertada con ID: " . $idDireccion);
         
-        if (!$stmt->execute()) {
-            throw new Exception("Error al guardar la dirección: " . $stmt->error);
-        }
-        
-        $idDireccion = $conn->insert_id;
-        $stmt->close();
-        
-        // 2. Insertar usuario (idTipoUsuario = 3 para "Cliente")
+        // 2. Insertar usuario
         $idTipoUsuario = 3;
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
-        
-        $stmt = $conn->prepare("INSERT INTO usuario (idTipoUsuario, idDireccion, nombre, apPat, apMat, email, password_hash, celular, fechaNac) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        
-        // Apellido materno puede ser NULL si viene vacío
         $apMatFinal = empty($apMat) ? null : $apMat;
         
-        $stmt->bind_param("iisssssss", 
-            $idTipoUsuario, 
-            $idDireccion, 
-            $nombre, 
-            $apPat, 
-            $apMatFinal, 
-            $email, 
-            $password_hash, 
-            $celular, 
-            $fechaNac
-        );
+        $stmt = $pdo->prepare("INSERT INTO usuario (idTipoUsuario, idDireccion, nombre, apPat, apMat, email, password_hash, celular, fechaNac) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$idTipoUsuario, $idDireccion, $nombre, $apPat, $apMatFinal, $email, $password_hash, $celular, $fechaNac]);
+        $idUsuario = $pdo->lastInsertId();
+        error_log("Usuario insertado con ID: " . $idUsuario);
         
-        if (!$stmt->execute()) {
-            throw new Exception("Error al guardar el usuario: " . $stmt->error);
-        }
-        
-        $idUsuario = $conn->insert_id;
-        $stmt->close();
-        
-        // 3. Crear carrito para el nuevo usuario
-        $stmt = $conn->prepare("INSERT INTO carrito (idUsuario) VALUES (?)");
-        $stmt->bind_param("i", $idUsuario);
-        
-        if (!$stmt->execute()) {
-            throw new Exception("Error al crear el carrito: " . $stmt->error);
-        }
-        $stmt->close();
+        // 3. Crear carrito
+        $stmt = $pdo->prepare("INSERT INTO carrito (idUsuario) VALUES (?)");
+        $stmt->execute([$idUsuario]);
+        error_log("Carrito creado para usuario ID: " . $idUsuario);
         
         // Confirmar transacción
-        $conn->commit();
+        $pdo->commit();
         
-        // Registrar éxito en sesión
         $_SESSION['registro_exitoso'] = true;
         $_SESSION['usuario_nombre'] = $nombre;
         
-        // Redirigir a login o a la página de éxito
+        error_log("REGISTRO EXITOSO - Redirigiendo a login.php");
         header('Location: login.php?registro=exitoso');
         exit();
         
-    } catch (Exception $e) {
-        // Revertir transacción en caso de error
-        $conn->rollback();
+    } catch (PDOException $e) {
+        $pdo->rollBack();
+        error_log("ERROR EN TRANSACCIÓN: " . $e->getMessage());
         
-        $_SESSION['errores_registro'] = ['general' => $e->getMessage()];
+        $_SESSION['errores_registro'] = ['general' => 'Ocurrió un error al registrar: ' . $e->getMessage()];
         $_SESSION['datos_registro'] = $_POST;
         header('Location: registro.php');
         exit();
     }
     
 } else {
-    // Si no es POST, redirigir al formulario
     header('Location: registro.php');
     exit();
 }

@@ -1,6 +1,8 @@
 <?php
-// index.php - Punto de entrada de la aplicación
 session_start();
+$titulo = 'Conejos.com';
+$js_adicional = 'assets/js/registro.js';
+include 'includes/header.php';
 
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/controllers/ArticuloController.php';
@@ -40,9 +42,6 @@ try {
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bobby Bunny Shop!</title>
     <link rel="icon" href="assets/multimedia/pictures/icon-pagina.png">
     <link rel="stylesheet" href="./assets/css/indexStyleSheet.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -50,36 +49,6 @@ try {
     <script src="./assets/js/carritoIndex.js" defer></script>
 </head>
 <body>
-    <header>
-        <nav class="barra-nav">
-            <a href="index.php">
-                <img src="assets/multimedia/pictures/icon.png" alt="Miffy" class="icono">
-            </a>
-            <ul class="nav-ul">
-                <li>
-                    <form action="" class="barra-busqueda">
-                        <input type="search" name="barra-busqueda" placeholder="Buscar productos...">
-                        <button type="submit" class="boton-busqueda">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </form>
-                </li>
-                <li><a href="carrito.php"><i class="fas fa-shopping-bag"></i></a></li>
-                <li><a href="registro.php">Registrarse</a></li>
-                <li><a href="login.php">Iniciar sesión</a></li>
-            </ul>
-        </nav>
-        <nav class="barra-nav-sec">
-            <ul class="nav-ul">
-                <li><a href="piensos.php">Piensos y henos</a></li>
-                <li><a href="premios.php">Premios</a></li>
-                <li><a href="juguetes.php">Juguetes</a></li>
-                <li><a href="habitats.php">Habitats</a></li>
-                <li><a href="limpieza.php">Limpieza y cuidado</a></li>
-            </ul>
-        </nav>
-    </header>
-
     <main>
         <div class="carrusel-wrapper">
             <div class="carrusel">
@@ -136,6 +105,6 @@ try {
         </section>
     </main>
 
-    <footer></footer>
+    <?php include 'includes/footer.php'; ?>
 </body>
 </html>

@@ -1,0 +1,514 @@
+/* Fuente elegante */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* Paleta de colores elegante */
+:root {
+    --cafe-noir:   #4c3d19;
+    --verde-kombu: #354024;
+    --verde-moss:  #889063;
+    --tan:         #cfbb99;
+    --hueso:       #e5d7c4;
+    --fondo:       #f9f6ee;
+    --sombra:      0 8px 32px rgba(76, 61, 25, 0.15);
+    --error:       #b33a3a;
+    --error-bg:    #f8e6e6;
+    --success:     #2d6a4f;
+    --success-bg:  #e3f5ef;
+}
+
+body {
+    font-family: 'Cormorant Garamond', serif;
+    background-color: var(--hueso);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============================================
+   HEADER - ESTILOS ELEGANTES
+   ============================================ */
+
+.barra-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 0.6rem 1.5rem;
+    background-color: var(--cafe-noir);
+}
+
+.icono {
+    width: 25px;
+    height: auto;
+    flex-shrink: 0;
+}
+
+.logo-img {
+    height: 46px;
+}
+
+.logo-fallback {
+    font-size: 1.6rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.nav-ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-ul li {
+    display: flex;
+    align-items: center;
+}
+
+.barra-busqueda {
+    position: relative;
+    width: 30vw;
+    margin: 0;
+}
+
+.barra-busqueda input {
+    width: 100%;
+    padding: 0.5rem 2.2rem 0.5rem 0.8rem;
+    border: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    background: transparent;
+    font-size: 0.9rem;
+    font-family: 'Cormorant Garamond', serif;
+    color: white;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.barra-busqueda input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.barra-busqueda input:focus {
+    border-bottom-color: var(--tan);
+}
+
+.boton-busqueda {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #C7B198;
+    border: none;
+    color: white;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    font-size: 0.8rem;
+}
+
+.boton-busqueda:hover {
+    background: #b59a7a;
+    transform: translateY(-50%) scale(1.05);
+}
+
+.barra-nav a {
+    text-decoration: none;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--fondo);
+    transition: color 0.3s ease;
+    white-space: nowrap;
+}
+
+.barra-nav a:hover {
+    color: var(--tan);
+}
+
+.barra-nav-sec {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1.5rem;
+    padding: 0.2rem 1.5rem;
+    background-color: var(--tan);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.barra-nav-sec .nav-ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+.barra-nav-sec a {
+    text-decoration: none;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--cafe-noir);
+    transition: color 0.3s ease;
+    white-space: nowrap;
+}
+
+.barra-nav-sec a:hover {
+    color: white;
+}
+
+/* ============================================
+   AUTH CONTAINER (Login y Registro)
+   ============================================ */
+
+.auth-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 1rem;
+}
+
+.auth-card {
+    margin: 20px;
+    background-color: var(--fondo);
+    border-radius: 6px;
+    box-shadow: var(--sombra);
+    padding: 3rem 3.5rem;
+    width: 100%;
+    max-width: 420px;
+    border: 1px solid rgba(76, 61, 25, 0.15);
+    animation: aparecer 0.45s ease both;
+}
+
+/* Para registro con más campos, un poco más ancho */
+.auth-card.registro {
+    max-width: 400;
+}
+
+@keyframes aparecer {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.auth-card h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--cafe-noir);
+    text-align: center;
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.03em;
+}
+
+.subtitulo {
+    text-align: center;
+    color: var(--verde-moss);
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 1.8rem;
+}
+
+.divisor {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.8rem;
+}
+
+.divisor::before,
+.divisor::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--tan);
+}
+
+.divisor span {
+    color: var(--tan);
+    font-size: 0.85rem;
+}
+
+/* ============================================
+   FORMULARIOS
+   ============================================ */
+
+.campo {
+    margin-bottom: 1.3rem;
+}
+
+.campo label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--cafe-noir);
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+}
+
+.input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrap > i {
+    position: absolute;
+    left: 12px;
+    color: var(--verde-moss);
+    font-size: 0.85rem;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.campo input {
+    width: 100%;
+    padding: 11px 40px 11px 36px;
+    border-radius: 4px;
+    border: 1.5px solid var(--tan);
+    background: var(--hueso);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--cafe-noir);
+    outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+}
+
+.campo input::placeholder {
+    color: var(--verde-moss);
+    opacity: 0.7;
+}
+
+.campo input:focus {
+    border-color: var(--cafe-noir);
+    background: var(--fondo);
+    box-shadow: 0 0 0 3px rgba(76, 61, 25, 0.09);
+}
+
+/* Botón de mostrar/ocultar contraseña dentro del campo */
+.toggle-pass {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--verde-moss);
+    font-size: 0.9rem;
+    padding: 4px;
+    transition: color 0.2s;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-pass:hover {
+    color: var(--cafe-noir);
+}
+
+/* Título de sección (para dirección) */
+.seccion-titulo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--cafe-noir);
+    margin: 0.5rem 0 1rem 0;
+    text-align: center;
+}
+
+/* Mensajes de validación debajo de cada campo */
+.error-message {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.75rem;
+    color: var(--error);
+}
+
+/* Enlace "Olvidé mi contraseña" */
+.olvide {
+    display: block;
+    text-align: right;
+    font-size: 0.85rem;
+    color: var(--verde-moss);
+    text-decoration: none;
+    margin-top: -5px;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.olvide:hover {
+    color: var(--cafe-noir);
+}
+
+/* Botón principal */
+.btn-auth {
+    width: 100%;
+    padding: 12px;
+    background: var(--cafe-noir);
+    color: var(--fondo);
+    border: none;
+    border-radius: 4px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 14px rgba(76, 61, 25, 0.2);
+}
+
+.btn-auth:hover {
+    background: var(--verde-kombu);
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(53, 64, 36, 0.25);
+}
+
+.btn-auth:active {
+    transform: translateY(0);
+}
+
+/* Enlace de registro/login */
+.auth-link {
+    text-align: center;
+    margin-top: 1.3rem;
+    font-size: 0.9rem;
+    color: var(--verde-moss);
+}
+
+.auth-link a {
+    color: var(--cafe-noir);
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.auth-link a:hover {
+    color: var(--verde-kombu);
+}
+
+/* ============================================
+   MENSAJES DE ALERTA
+   ============================================ */
+
+.alert {
+    padding: 12px 15px;
+    border-radius: 4px;
+    margin-top: 20px;
+    font-size: 0.85rem;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.alert-danger {
+    background: var(--error-bg);
+    color: var(--error);
+    border-left: 3px solid var(--error);
+}
+
+.alert-success {
+    background: var(--success-bg);
+    color: var(--success);
+    border-left: 3px solid var(--success);
+}
+
+.alert ul {
+    margin: 8px 0 0 0;
+    padding-left: 20px;
+}
+
+.alert li {
+    margin-bottom: 5px;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+
+footer {
+    text-align: center;
+    padding: 0.8rem;
+    font-size: 0.85rem;
+    color: var(--verde-moss);
+    border-top: 1px solid var(--tan);
+    background: var(--hueso);
+    font-family: 'Cormorant Garamond', serif;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .barra-nav {
+        flex-wrap: wrap;
+        padding: 0.6rem 1rem;
+        gap: 0.8rem;
+    }
+
+    .barra-busqueda { width: 200px; }
+    .nav-ul { gap: 1rem; }
+    .barra-nav a { font-size: 0.9rem; }
+    .barra-nav-sec { padding: 0.2rem 1rem; overflow-x: auto; }
+    .barra-nav-sec .nav-ul { gap: 1rem; }
+    .barra-nav-sec a { font-size: 0.9rem; }
+
+    .auth-card {
+        padding: 2.5rem 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .barra-nav {
+        flex-direction: column;
+        padding: 0.8rem;
+    }
+
+    .barra-busqueda {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .nav-ul {
+        width: 100%;
+        justify-content: center;
+        gap: 1.2rem;
+    }
+
+    .barra-nav-sec { justify-content: center; }
+    .barra-nav-sec .nav-ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.8rem;
+    }
+
+    .auth-card {
+        padding: 2rem 1.4rem;
+    }
+    
+    .auth-card.registro {
+        padding: 1.8rem 1.2rem;
+    }
+    
+    .auth-card h1 {
+        font-size: 1.6rem;
+    }
+    
+    .conejo-icon {
+        font-size: 2.5rem;
+    }
+}

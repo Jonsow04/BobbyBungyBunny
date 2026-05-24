@@ -1,7 +1,7 @@
 // Esperar a que el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Referencias a los campos
+    // Referencias a los campos de usuario
     const password = document.getElementById('contrasena');
     const confirmPassword = document.getElementById('contrasenaconfirm');
     const emailInput = document.getElementById('email');
@@ -9,21 +9,28 @@ document.addEventListener('DOMContentLoaded', function() {
     const fechaNacimientoInput = document.getElementById('fecha_nacimiento');
     const nombreInput = document.getElementById('nombre');
     const apellidoPaternoInput = document.getElementById('apellido_paterno');
+    const apellidoMaternoInput = document.getElementById('apellido_materno');
+    
+    // Referencias a los campos de dirección
+    const calleInput = document.getElementById('calle');
+    const numCasaInput = document.getElementById('num_casa');
+    const coloniaInput = document.getElementById('colonia');
+    const cpInput = document.getElementById('cp');
+    const ciudadInput = document.getElementById('ciudad');
+    const estadoInput = document.getElementById('estado');
+    
     const form = document.querySelector('form');
     
     // Función para crear contenedor de mensaje debajo de un campo
     function createMessageContainer(inputElement, messageId) {
         if (!inputElement) return null;
         
-        // Buscar el div .campo que contiene el input
         const campoDiv = inputElement.closest('.campo');
         if (!campoDiv) return null;
         
-        // Verificar si ya existe el mensaje
         let messageContainer = document.getElementById(messageId);
         if (messageContainer) return messageContainer;
         
-        // Crear el contenedor del mensaje
         messageContainer = document.createElement('small');
         messageContainer.id = messageId;
         messageContainer.style.display = 'block';
@@ -31,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
         messageContainer.style.fontSize = '12px';
         messageContainer.style.lineHeight = '1.4';
         
-        // Insertar después del input-wrap (que contiene el input)
         const inputWrap = campoDiv.querySelector('.input-wrap');
         if (inputWrap) {
             inputWrap.insertAdjacentElement('afterend', messageContainer);
@@ -42,7 +48,8 @@ document.addEventListener('DOMContentLoaded', function() {
         return messageContainer;
     }
     
-    // ========== FUNCIÓN VALIDAR NOMBRE ==========
+    // ========== VALIDACIONES DE USUARIO ==========
+    
     function validateNombre() {
         if (!nombreInput) return true;
         
@@ -57,14 +64,28 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         }
         
-        // Todo correcto
+        if (nombre.length < 2 || nombre.length > 45) {
+            if (messageContainer) {
+                messageContainer.textContent = 'El nombre debe tener entre 2 y 45 caracteres';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
+        
+        if (!/^[a-zA-ZáéíóúñÁÉÍÓÚÑ\s]+$/.test(nombre)) {
+            if (messageContainer) {
+                messageContainer.textContent = 'El nombre solo puede contener letras';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
+        
         if (messageContainer) {
             messageContainer.textContent = '';
         }
         return true;
     }
     
-    // ========== FUNCIÓN VALIDAR APELLIDO PATERNO ==========
     function validateApellidoPaterno() {
         if (!apellidoPaternoInput) return true;
         
@@ -79,14 +100,56 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         }
         
-        // Todo correcto
+        if (apellido.length < 2 || apellido.length > 45) {
+            if (messageContainer) {
+                messageContainer.textContent = 'El apellido paterno debe tener entre 2 y 45 caracteres';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
+        
+        if (!/^[a-zA-ZáéíóúñÁÉÍÓÚÑ\s]+$/.test(apellido)) {
+            if (messageContainer) {
+                messageContainer.textContent = 'El apellido paterno solo puede contener letras';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
+        
         if (messageContainer) {
             messageContainer.textContent = '';
         }
         return true;
     }
     
-    // ========== FUNCIÓN VALIDAR CORREO ==========
+    function validateApellidoMaterno() {
+        if (!apellidoMaternoInput) return true;
+        
+        const apellido = apellidoMaternoInput.value.trim();
+        const messageContainer = createMessageContainer(apellidoMaternoInput, 'apellidoMaternoMessage');
+        
+        if (apellido !== '' && apellido.length > 45) {
+            if (messageContainer) {
+                messageContainer.textContent = 'El apellido materno no debe exceder 45 caracteres';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
+        
+        if (apellido !== '' && !/^[a-zA-ZáéíóúñÁÉÍÓÚÑ\s]+$/.test(apellido)) {
+            if (messageContainer) {
+                messageContainer.textContent = 'El apellido materno solo puede contener letras';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
+        
+        if (messageContainer) {
+            messageContainer.textContent = '';
+        }
+        return true;
+    }
+    
     function validateEmail() {
         if (!emailInput) return true;
         
@@ -98,11 +161,17 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         }
         
-        // Dominios permitidos
-        const allowedDomains = ['gmail.com', 'hotmail.com', 'outlook.com', 'icloud.com'];
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            if (messageContainer) {
+                messageContainer.textContent = 'Formato de correo inválido';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
         
-        // Extraer el dominio del correo
+        const allowedDomains = ['gmail.com', 'hotmail.com', 'outlook.com', 'icloud.com'];
         const emailParts = email.split('@');
+        
         if (emailParts.length !== 2) {
             if (messageContainer) {
                 messageContainer.textContent = 'Formato de correo inválido';
@@ -113,7 +182,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const domain = emailParts[1].toLowerCase();
         
-        // Verificar si el dominio está permitido
         if (!allowedDomains.includes(domain)) {
             if (messageContainer) {
                 messageContainer.textContent = 'Solo se permiten correos de: Gmail, Hotmail, Outlook o iCloud';
@@ -122,18 +190,16 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         }
         
-        // Todo correcto
         if (messageContainer) {
             messageContainer.textContent = '';
         }
         return true;
     }
     
-    // ========== FUNCIÓN VALIDAR CELULAR ==========
     function validateCelular() {
         if (!celularInput) return true;
         
-        const celular = celularInput.value;
+        let celular = celularInput.value;
         const messageContainer = createMessageContainer(celularInput, 'celularMessage');
         
         if (celular === '') {
@@ -141,13 +207,9 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         }
         
-        // Eliminar espacios, guiones, paréntesis, etc.
         const cleanNumber = celular.replace(/[\s\-\(\)\+]/g, '');
         
-        // Verificar que sean solo números
-        const onlyNumbers = /^\d+$/.test(cleanNumber);
-        
-        if (!onlyNumbers) {
+        if (!/^\d+$/.test(cleanNumber)) {
             if (messageContainer) {
                 messageContainer.textContent = 'El celular solo debe contener números';
                 messageContainer.style.color = 'red';
@@ -163,14 +225,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         }
         
-        // Todo correcto
         if (messageContainer) {
             messageContainer.textContent = '';
         }
         return true;
     }
     
-    // ========== FUNCIÓN VALIDAR FECHA DE NACIMIENTO ==========
     function validateFechaNacimiento() {
         if (!fechaNacimientoInput) return true;
         
@@ -219,14 +279,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         }
         
-        // Todo correcto
         if (messageContainer) {
             messageContainer.textContent = '';
         }
         return true;
     }
     
-    // ========== FUNCIÓN VALIDAR REQUISITOS CONTRASEÑA ==========
     function validatePasswordRequirements() {
         if (!password) return true;
         
@@ -267,7 +325,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return isValid;
     }
     
-    // ========== FUNCIÓN VALIDAR COINCIDENCIA CONTRASEÑAS ==========
     function validatePasswordMatch() {
         if (!password || !confirmPassword) return true;
         
@@ -306,57 +363,248 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         }
         
-        // Todo correcto
         if (messageContainer) {
             messageContainer.textContent = '';
         }
         return true;
     }
     
-    // ========== BOTÓN PARA MOSTRAR CONTRASEÑAS ==========
+    // ========== VALIDACIONES DE DIRECCIÓN ==========
+    
+    function validateCalle() {
+        if (!calleInput) return true;
+        
+        const calle = calleInput.value.trim();
+        const messageContainer = createMessageContainer(calleInput, 'calleMessage');
+        
+        if (calle === '') {
+            if (messageContainer) {
+                messageContainer.textContent = 'La calle es obligatoria';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
+        
+        if (calle.length > 50) {
+            if (messageContainer) {
+                messageContainer.textContent = 'La calle no debe exceder 50 caracteres';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
+        
+        if (messageContainer) {
+            messageContainer.textContent = '';
+        }
+        return true;
+    }
+    
+    function validateNumCasa() {
+        if (!numCasaInput) return true;
+        
+        let numCasa = numCasaInput.value.trim();
+        const messageContainer = createMessageContainer(numCasaInput, 'numCasaMessage');
+        
+        if (numCasa === '') {
+            if (messageContainer) {
+                messageContainer.textContent = 'El número de casa es obligatorio';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
+        
+        if (!/^\d+$/.test(numCasa)) {
+            if (messageContainer) {
+                messageContainer.textContent = 'El número de casa solo debe contener números';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
+        
+        if (numCasa.length > 5) {
+            if (messageContainer) {
+                messageContainer.textContent = 'El número de casa no debe exceder 5 dígitos';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
+        
+        if (messageContainer) {
+            messageContainer.textContent = '';
+        }
+        return true;
+    }
+    
+    function validateColonia() {
+        if (!coloniaInput) return true;
+        
+        const colonia = coloniaInput.value.trim();
+        const messageContainer = createMessageContainer(coloniaInput, 'coloniaMessage');
+        
+        if (colonia === '') {
+            if (messageContainer) {
+                messageContainer.textContent = 'La colonia es obligatoria';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
+        
+        if (colonia.length > 50) {
+            if (messageContainer) {
+                messageContainer.textContent = 'La colonia no debe exceder 50 caracteres';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
+        
+        if (!/^[a-zA-ZáéíóúñÁÉÍÓÚÑ\s]+$/.test(colonia)) {
+            if (messageContainer) {
+                messageContainer.textContent = 'La colonia solo puede contener letras (sin números)';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
+        
+        if (messageContainer) {
+            messageContainer.textContent = '';
+        }
+        return true;
+    }
+    
+    function validateCP() {
+        if (!cpInput) return true;
+        
+        const cp = cpInput.value.trim();
+        const messageContainer = createMessageContainer(cpInput, 'cpMessage');
+        
+        if (cp === '') {
+            if (messageContainer) {
+                messageContainer.textContent = 'El código postal es obligatorio';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
+        
+        if (!/^\d{5}$/.test(cp)) {
+            if (messageContainer) {
+                messageContainer.textContent = 'El código postal debe tener 5 dígitos';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
+        
+        if (messageContainer) {
+            messageContainer.textContent = '';
+        }
+        return true;
+    }
+    
+    function validateCiudad() {
+        if (!ciudadInput) return true;
+        
+        const ciudad = ciudadInput.value.trim();
+        const messageContainer = createMessageContainer(ciudadInput, 'ciudadMessage');
+        
+        if (ciudad === '') {
+            if (messageContainer) {
+                messageContainer.textContent = 'La ciudad es obligatoria';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
+        
+        if (ciudad.length > 30) {
+            if (messageContainer) {
+                messageContainer.textContent = 'La ciudad no debe exceder 30 caracteres';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
+        
+        if (!/^[a-zA-ZáéíóúñÁÉÍÓÚÑ\s]+$/.test(ciudad)) {
+            if (messageContainer) {
+                messageContainer.textContent = 'La ciudad solo puede contener letras (sin números)';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
+        
+        if (messageContainer) {
+            messageContainer.textContent = '';
+        }
+        return true;
+    }
+    
+    function validateEstado() {
+        if (!estadoInput) return true;
+        
+        const estado = estadoInput.value.trim();
+        const messageContainer = createMessageContainer(estadoInput, 'estadoMessage');
+        
+        if (estado === '') {
+            if (messageContainer) {
+                messageContainer.textContent = 'El estado es obligatorio';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
+        
+        if (estado.length > 30) {
+            if (messageContainer) {
+                messageContainer.textContent = 'El estado no debe exceder 30 caracteres';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
+        
+        if (!/^[a-zA-ZáéíóúñÁÉÍÓÚÑ\s]+$/.test(estado)) {
+            if (messageContainer) {
+                messageContainer.textContent = 'El estado solo puede contener letras (sin números)';
+                messageContainer.style.color = 'red';
+            }
+            return false;
+        }
+        
+        if (messageContainer) {
+            messageContainer.textContent = '';
+        }
+        return true;
+    }
+    
+    // ========== MOSTRAR/OCULTAR AMBAS CONTRASEÑAS ==========
     function createPasswordToggleButton() {
-        if (!password || !confirmPassword) return;
+        if (!password) return;
         
-        // Buscar el div .campo de confirmar contraseña
-        const confirmField = confirmPassword.closest('.campo');
-        if (!confirmField) return;
-        
-        // Verificar si el botón ya existe
         if (document.getElementById('togglePasswordBtn')) return;
         
-        // Crear el botón único
         const toggleBtn = document.createElement('button');
         toggleBtn.id = 'togglePasswordBtn';
         toggleBtn.type = 'button';
-        toggleBtn.innerHTML = '<i class="fas fa-eye"></i> Mostrar contraseñas';
-        toggleBtn.style.marginTop = '10px';
-        toggleBtn.style.marginBottom = '10px';
-        toggleBtn.style.background = '#f0f0f0';
-        toggleBtn.style.border = '1px solid #ccc';
-        toggleBtn.style.borderRadius = '5px';
-        toggleBtn.style.cursor = 'pointer';
-        toggleBtn.style.padding = '8px 12px';
-        toggleBtn.style.fontSize = '14px';
-        toggleBtn.style.width = '100%';
+        toggleBtn.className = 'toggle-pass';
+        toggleBtn.innerHTML = '<i class="fas fa-eye"></i>';
+        toggleBtn.title = 'Mostrar contraseñas';
         
         let isVisible = false;
-        
         toggleBtn.addEventListener('click', function() {
             isVisible = !isVisible;
             
             if (isVisible) {
                 password.type = 'text';
-                confirmPassword.type = 'text';
-                toggleBtn.innerHTML = '<i class="fas fa-eye-slash"></i> Ocultar contraseñas';
+                if (confirmPassword) confirmPassword.type = 'text';
+                toggleBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+                toggleBtn.title = 'Ocultar contraseñas';
             } else {
                 password.type = 'password';
-                confirmPassword.type = 'password';
-                toggleBtn.innerHTML = '<i class="fas fa-eye"></i> Mostrar contraseñas';
+                if (confirmPassword) confirmPassword.type = 'password';
+                toggleBtn.innerHTML = '<i class="fas fa-eye"></i>';
+                toggleBtn.title = 'Mostrar contraseñas';
             }
         });
         
-        // Insertar el botón después del campo de confirmar contraseña
-        confirmField.insertAdjacentElement('afterend', toggleBtn);
+        const inputWrap = password.closest('.input-wrap');
+        if (inputWrap) {
+            inputWrap.appendChild(toggleBtn);
+        }
     }
     
     // ========== INDICADOR DE FORTALEZA DE CONTRASEÑA ==========
@@ -407,37 +655,72 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (!validateNombre()) {
             isValid = false;
-            errorMessage += '• Ingresa tu nombre\n';
+            errorMessage += 'Ingresa tu nombre (2-45 caracteres, solo letras)\n';
         }
         
         if (!validateApellidoPaterno()) {
             isValid = false;
-            errorMessage += '• Ingresa tu apellido paterno\n';
+            errorMessage += 'Ingresa tu apellido paterno (2-45 caracteres, solo letras)\n';
+        }
+        
+        if (!validateApellidoMaterno()) {
+            isValid = false;
+            errorMessage += 'El apellido materno no debe exceder 45 caracteres y solo letras\n';
         }
         
         if (!validateEmail()) {
             isValid = false;
-            errorMessage += '• Ingresa un correo válido (Gmail, Hotmail, Outlook o iCloud)\n';
+            errorMessage += 'Ingresa un correo válido (Gmail, Hotmail, Outlook o iCloud)\n';
         }
         
         if (!validateCelular()) {
             isValid = false;
-            errorMessage += '• Ingresa un número de celular válido (10 dígitos)\n';
+            errorMessage += 'Ingresa un número de celular válido (10 dígitos)\n';
         }
         
         if (!validateFechaNacimiento()) {
             isValid = false;
-            errorMessage += '• Debes tener al menos 18 años para registrarte\n';
+            errorMessage += 'Debes tener al menos 18 años para registrarte\n';
         }
         
         if (!validatePasswordRequirements()) {
             isValid = false;
-            errorMessage += '• La contraseña debe tener mínimo 8 caracteres alfanuméricos\n';
+            errorMessage += 'La contraseña debe tener mínimo 8 caracteres alfanuméricos\n';
         }
         
         if (!validatePasswordMatch()) {
             isValid = false;
-            errorMessage += '• Las contraseñas no coinciden\n';
+            errorMessage += 'Las contraseñas no coinciden\n';
+        }
+        
+        if (!validateCalle()) {
+            isValid = false;
+            errorMessage += 'La calle es obligatoria\n';
+        }
+        
+        if (!validateNumCasa()) {
+            isValid = false;
+            errorMessage += 'El número de casa es obligatorio y solo números\n';
+        }
+        
+        if (!validateColonia()) {
+            isValid = false;
+            errorMessage += 'La colonia es obligatoria y solo letras\n';
+        }
+        
+        if (!validateCP()) {
+            isValid = false;
+            errorMessage += 'El código postal debe tener 5 dígitos\n';
+        }
+        
+        if (!validateCiudad()) {
+            isValid = false;
+            errorMessage += 'La ciudad es obligatoria y solo letras\n';
+        }
+        
+        if (!validateEstado()) {
+            isValid = false;
+            errorMessage += 'El estado es obligatorio y solo letras\n';
         }
         
         if (!isValid) {
@@ -459,6 +742,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (apellidoPaternoInput) {
         apellidoPaternoInput.addEventListener('keyup', validateApellidoPaterno);
         apellidoPaternoInput.addEventListener('blur', validateApellidoPaterno);
+    }
+    
+    if (apellidoMaternoInput) {
+        apellidoMaternoInput.addEventListener('keyup', validateApellidoMaterno);
+        apellidoMaternoInput.addEventListener('blur', validateApellidoMaterno);
     }
     
     if (emailInput) {
@@ -498,6 +786,46 @@ document.addEventListener('DOMContentLoaded', function() {
         confirmPassword.addEventListener('blur', validatePasswordMatch);
     }
     
+    if (calleInput) {
+        calleInput.addEventListener('keyup', validateCalle);
+        calleInput.addEventListener('blur', validateCalle);
+    }
+    
+    if (numCasaInput) {
+        numCasaInput.addEventListener('keyup', validateNumCasa);
+        numCasaInput.addEventListener('blur', validateNumCasa);
+        
+        numCasaInput.addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '');
+        });
+    }
+    
+    if (coloniaInput) {
+        coloniaInput.addEventListener('keyup', validateColonia);
+        coloniaInput.addEventListener('blur', validateColonia);
+    }
+    
+    if (cpInput) {
+        cpInput.addEventListener('keyup', validateCP);
+        cpInput.addEventListener('blur', validateCP);
+        
+        cpInput.addEventListener('input', function(e) {
+            let value = this.value.replace(/\D/g, '');
+            if (value.length > 5) value = value.slice(0, 5);
+            this.value = value;
+        });
+    }
+    
+    if (ciudadInput) {
+        ciudadInput.addEventListener('keyup', validateCiudad);
+        ciudadInput.addEventListener('blur', validateCiudad);
+    }
+    
+    if (estadoInput) {
+        estadoInput.addEventListener('keyup', validateEstado);
+        estadoInput.addEventListener('blur', validateEstado);
+    }
+    
     if (form) {
         form.addEventListener('submit', validateForm);
     }
@@ -505,5 +833,4 @@ document.addEventListener('DOMContentLoaded', function() {
     // ========== INICIALIZAR ==========
     createPasswordToggleButton();
     createStrengthIndicator();
-    
 });
