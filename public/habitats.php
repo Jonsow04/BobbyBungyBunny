@@ -49,7 +49,7 @@
     <main>
         <div class="hero">
             <div class="hero-content">
-                <h1>Hábitats Confortables 🏠</h1>
+                <h1>Hábitats Confortables </h1>
                 <p>Jaulas, parques y accesorios para crear el hogar perfecto para tu conejo.</p>
                 <button class="btn-hero" onclick="document.querySelector('.productos-wrapper').scrollIntoView({behavior: 'smooth'})">
                     Ver hábitats →
@@ -72,13 +72,13 @@
             descripcion: "Lo mejor segun los usuarios para crear el hogar perfecto para tu conejo.",
             seccion: "habitats",
             categoriasMap: {
-                13: { nombre: 'Corrales de Interior', filtro: 'CorralesInterior' },
-                14: { nombre: 'Madrigueras Interiores', filtro: 'MadriguerasInteriores' },
-                15: { nombre: 'Recintos de Exterior', filtro: 'RecintosExterior' },
-                16: { nombre: 'Complementos y Adornos', filtro: 'ComplementosAdornos' },
-                17: { nombre: 'Zonas con Suelo Seguro', filtro: 'sueloSeguro' }
+                14: { nombre: 'Corrales de Interior', filtro: 'CorralesInterior' },
+                15: { nombre: 'Madrigueras Interiores', filtro: 'MadriguerasInteriores' },
+                16: { nombre: 'Recintos de Exterior', filtro: 'RecintosExterior' },
+                17: { nombre: 'Complementos y Adornos', filtro: 'ComplementosAdornos' },
+                18: { nombre: 'Zonas con Suelo Seguro', filtro: 'sueloSeguro' }
             },
-            idCategoriasPermitidas: [13, 14, 15, 16, 17],
+            idCategoriasPermitidas: [14, 15, 16, 17, 18],
         };
     </script>
 </body>

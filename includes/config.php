@@ -27,7 +27,13 @@ function getConnection() {
         error_log("Error de conexión a la base de datos: " . $e->getMessage());
         
         // Mostrar un mensaje amigable
+        
         die("Error de conexión a la base de datos. Por favor, intenta más tarde.");
+        
+        //mensaje de error real (temporal)
+        /*
+        die("Error de conexión: " . $e->getMessage());
+        */
     }
 }
 ?>

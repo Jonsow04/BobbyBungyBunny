@@ -46,8 +46,8 @@
 
         //para la futura BD
         // Endpoint de API (puede venir en la configuración o usar uno por defecto)
-        const API_URL = config.apiUrl || 'http://localhost:3000/api/articulos';
-
+        //const API_URL = '/../public/index.php?format=json';
+        const API_URL = 'index.php?format=json';
         
          // Mapea un producto desde la respuesta de la API al formato interno
          // Ajusta según la estructura real de tu base de datos
@@ -84,8 +84,7 @@
                     <img class="producto-imagen" 
                          src="${producto.imagen}" 
                          alt="${escapeHTML(producto.nombre)}"
-                         onerror="this.src='${config.defaultImagen || 'assets/multimedia/pictures/default-producto.png'}'">
-                    <div class="producto-info">
+                        onerror="if(!this.hasAttribute('data-error')){ this.setAttribute('data-error','1'); this.src='${config.defaultImagen || 'assets/multimedia/pictures/default-producto.png'}'; } else { this.style.display='none'; }"                    <div class="producto-info">
                         <h3 class="producto-titulo">${escapeHTML(producto.nombre)}</h3>
                         <p class="producto-descripcion">${escapeHTML(producto.descripcion?.substring(0, 100) || 'Sin descripción')}${producto.descripcion?.length > 100 ? '...' : ''}</p>
                         <div class="producto-precio">$${producto.precio.toFixed(2)}</div>
