@@ -16,7 +16,7 @@ class SessionHelper {
      */
     public static function getCarrito() {
         self::iniciar();
-        return $_SESSION['carrito'] ?? [];
+        return $_SESSION['carrito_invitado'] ?? [];
     }
     
     /**
@@ -24,7 +24,7 @@ class SessionHelper {
      */
     public static function guardarCarrito($carrito) {
         self::iniciar();
-        $_SESSION['carrito'] = $carrito;
+        $_SESSION['carrito_invitado'] = $carrito;
     }
     
     /**
@@ -32,7 +32,7 @@ class SessionHelper {
      */
     public static function vaciarCarrito() {
         self::iniciar();
-        $_SESSION['carrito'] = [];
+        $_SESSION['carrito_invitado'] = [];
     }
     
     /**
@@ -40,7 +40,7 @@ class SessionHelper {
      */
     public static function getUsuario() {
         self::iniciar();
-        return $_SESSION['usuario'] ?? null;
+        return $_SESSION['usuario_id'] ?? null;
     }
     
     /**
@@ -49,6 +49,41 @@ class SessionHelper {
     public static function isLoggedIn() {
         self::iniciar();
         return isset($_SESSION['usuario_id']);
+    }
+    public static function isAdmin() {
+        self::iniciar();
+        return isset($_SESSION['usuario_tipo']) && $_SESSION['usuario_tipo'] == 1;
+    }
+    
+    public static function isGerente() {
+        self::iniciar();
+        return isset($_SESSION['usuario_tipo']) && $_SESSION['usuario_tipo'] == 2;
+    }
+    
+    public static function isAdminOrGerente() {
+        self::iniciar();
+        return isset($_SESSION['usuario_tipo']) && ($_SESSION['usuario_tipo'] == 1 || $_SESSION['usuario_tipo'] == 2);
+    }
+    
+    public static function isCliente() {
+        self::iniciar();
+        return isset($_SESSION['usuario_tipo']) && $_SESSION['usuario_tipo'] == 3;
+    }
+    
+    public static function requireAdmin() {
+        self::iniciar();
+        if (!self::isAdmin()) {
+            header('Location: ../index.php');
+            exit();
+        }
+    }
+    
+    public static function requireAdminOrGerente() {
+        self::iniciar();
+        if (!self::isAdminOrGerente()) {
+            header('Location: ../index.php');
+            exit();
+        }
     }
 }
 ?>

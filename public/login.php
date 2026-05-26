@@ -13,6 +13,24 @@ include 'includes/header.php';
             
             <h1>Bienvenido</h1>
             <p class="subtitulo">Inicia sesión en Conejos.com</p>
+
+            //Selector de tipo de acceso
+            <div class="selector-tipo">
+                <div class="selector-opcion <?php echo ($_POST['tipo_acceso'] ?? 'cliente') == 'cliente' ? 'active' : ''; ?>" 
+                    data-tipo="cliente"
+                    onclick="seleccionarTipo('cliente')">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Soy Cliente</span>
+                </div>
+                <div class="selector-opcion <?php echo ($_POST['tipo_acceso'] ?? '') == 'admin' ? 'active' : ''; ?>" 
+                    data-tipo="admin"
+                    onclick="seleccionarTipo('admin')">
+                    <i class="fas fa-store"></i>
+                    <span>Soy Admin/Tienda</span>
+                </div>
+            </div>
+
+            <input type="hidden" name="tipo_acceso" id="tipo_acceso" value="<?php echo htmlspecialchars($_POST['tipo_acceso'] ?? 'cliente'); ?>">
             
             <div class="divisor"><span>✦</span></div>
 
@@ -80,6 +98,33 @@ include 'includes/header.php';
 
     <?php include 'includes/footer.php'; ?>
 
+    <style>
+    .selector-tipo {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .selector-opcion {
+        flex: 1;
+        text-align: center;
+        padding: 0.8rem;
+        border: 2px solid var(--tan);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .selector-opcion.active {
+        background: var(--cafe-noir);
+        color: white;
+        border-color: var(--cafe-noir);
+    }
+    .selector-opcion i {
+        font-size: 1.2rem;
+        display: block;
+        margin-bottom: 0.3rem;
+    }
+    </style>
+
     <script>
         // Mostrar/ocultar contraseña
         const togglePassword = document.getElementById('togglePassword');
@@ -93,6 +138,14 @@ include 'includes/header.php';
                 this.querySelector('i').classList.toggle('fa-eye-slash');
             });
         }
+        function seleccionarTipo(tipo) {
+            document.getElementById('tipo_acceso').value = tipo;
+            document.querySelectorAll('.selector-opcion').forEach(opt => {
+                opt.classList.remove('active');
+                if (opt.dataset.tipo === tipo) opt.classList.add('active');
+            });
+        }
+
     </script>
 </body>
 
