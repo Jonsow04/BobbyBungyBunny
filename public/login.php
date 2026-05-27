@@ -11,37 +11,17 @@ include 'includes/header.php';
 ?>
 
 <!DOCTYPE html>
-<html lang="es">
 
 <body>
     <div class="auth-wrapper">
         <div class="auth-card">
-            
             <h1>Bienvenido</h1>
             <p class="subtitulo">Inicia sesión en Conejos.com</p>
 
+            <div class="divisor"><span>✦</span></div>
+
             <form action="procesarLogin.php" method="POST" id="loginForm">
                 
-                <!-- Selector de tipo de acceso -->
-                <div class="selector-tipo">
-                    <div class="selector-opcion <?php echo (($_POST['tipo_acceso'] ?? 'cliente') == 'cliente') ? 'active' : ''; ?>" 
-                        data-tipo="cliente"
-                        onclick="seleccionarTipo('cliente')">
-                        <i class="fas fa-shopping-bag"></i>
-                        <span>Soy Cliente</span>
-                    </div>
-                    <div class="selector-opcion <?php echo (($_POST['tipo_acceso'] ?? '') == 'admin') ? 'active' : ''; ?>" 
-                        data-tipo="admin"
-                        onclick="seleccionarTipo('admin')">
-                        <i class="fas fa-store"></i>
-                        <span>Soy Admin/Tienda</span>
-                    </div>
-                </div>
-
-                <input type="hidden" name="tipo_acceso" id="tipo_acceso" value="<?php echo htmlspecialchars($_POST['tipo_acceso'] ?? 'cliente'); ?>">
-                
-                <div class="divisor"><span>✦</span></div>
-
                 <div class="campo">
                     <label for="email">Correo electrónico</label>
                     <div class="input-wrap">
@@ -68,7 +48,7 @@ include 'includes/header.php';
                 <!-- Mostrar errores de login -->
                 <?php if (isset($_SESSION['errores_login']) && !empty($_SESSION['errores_login'])): ?>
                     <div class="alert alert-danger">
-                        <strong>⚠️ Error al iniciar sesión</strong>
+                        <strong>Error al iniciar sesión</strong>
                         <ul>
                             <?php foreach ($_SESSION['errores_login'] as $error): ?>
                                 <li><?php echo htmlspecialchars($error); ?></li>
@@ -81,7 +61,7 @@ include 'includes/header.php';
                 <!-- Mostrar mensaje de registro exitoso -->
                 <?php if (isset($_SESSION['registro_exitoso'])): ?>
                     <div class="alert alert-success">
-                        <strong>✅ ¡Cuenta creada exitosamente!</strong>
+                        <strong>¡Cuenta creada exitosamente!</strong>
                         <p style="margin: 10px 0 0 0;">Ahora puedes iniciar sesión con tu correo y contraseña.</p>
                     </div>
                     <?php unset($_SESSION['registro_exitoso']); ?>
@@ -104,33 +84,6 @@ include 'includes/header.php';
     </div>
 
     <?php include 'includes/footer.php'; ?>
-
-    <style>
-    .selector-tipo {
-        display: flex;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-    }
-    .selector-opcion {
-        flex: 1;
-        text-align: center;
-        padding: 0.8rem;
-        border: 2px solid var(--tan);
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-    .selector-opcion.active {
-        background: var(--cafe-noir);
-        color: white;
-        border-color: var(--cafe-noir);
-    }
-    .selector-opcion i {
-        font-size: 1.2rem;
-        display: block;
-        margin-bottom: 0.3rem;
-    }
-    </style>
 
     <script src="assets/js/loginScripts.js"></script>
 </body>

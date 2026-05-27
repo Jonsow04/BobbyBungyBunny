@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const isVisible = passwordField.type === 'text';
             passwordField.type = isVisible ? 'password' : 'text';
             
-            // Cambiar el icono del ojo
             const icon = this.querySelector('i');
             if (icon) {
                 icon.classList.toggle('fa-eye');
@@ -19,23 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
-    // ========== SELECTOR DE TIPO DE ACCESO ==========
-    window.seleccionarTipo = function(tipo) {
-        const tipoAccesoInput = document.getElementById('tipo_acceso');
-        if (tipoAccesoInput) {
-            tipoAccesoInput.value = tipo;
-        }
-        
-        // Actualizar clases active en los selectores
-        const opciones = document.querySelectorAll('.selector-opcion');
-        opciones.forEach(opt => {
-            opt.classList.remove('active');
-            if (opt.dataset.tipo === tipo) {
-                opt.classList.add('active');
-            }
-        });
-    };
     
     // ========== VALIDACIÓN DEL FORMULARIO ANTES DE ENVIAR ==========
     const loginForm = document.getElementById('loginForm');
@@ -85,17 +67,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // ========== VALIDACIÓN EN TIEMPO REAL ==========
     const emailInput = document.getElementById('email');
-    const emailMessage = document.getElementById('emailMessage');
+    const emailMessageSpan = document.getElementById('emailMessage');
     
-    if (emailInput && emailMessage) {
+    if (emailInput && emailMessageSpan) {
         emailInput.addEventListener('input', function() {
             if (this.value.trim() === '') {
-                emailMessage.textContent = '';
+                emailMessageSpan.textContent = '';
             } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value.trim())) {
-                emailMessage.textContent = 'Formato de correo inválido';
-                emailMessage.style.color = '#b33a3a';
+                emailMessageSpan.textContent = 'Formato de correo inválido';
+                emailMessageSpan.style.color = '#b33a3a';
             } else {
-                emailMessage.textContent = '';
+                emailMessageSpan.textContent = '';
             }
         });
     }

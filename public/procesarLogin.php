@@ -1,17 +1,11 @@
 <?php
 session_start();
-
-// Depuración
-error_log("=== PROCESAR LOGIN ===");
-error_log("POST recibido: " . print_r($_POST, true));
-
 require_once '../includes/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['contrasena'] ?? '';
-    $tipoAcceso = $_POST['tipo_acceso'] ?? 'cliente';
 
     $errores = [];
     
@@ -36,7 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo = getConnection();
         
         // Buscar usuario por email
-        $stmt = $pdo->prepare("SELECT u.idUsuario, u.nombre, u.email, u.password_hash, u.idTipoUsuario, tu.nombre as tipo_nombre FROM usuario u INNER JOIN tipousuario tu ON u.idTipoUsuario = tu.idTipoUsuario WHERE email = ?");
+        $stmt = $pdo->prepare("SELECT u.idUsuario, u.nombre, u.email, u.password_hash, u.idTipoUsuario, tu.nombre as tipo_nombre 
+                               FROM usuario u 
+                               INNER JOIN tipousuario tu ON u.idTipoUsuario = tu.idTipoUsuario 
+                               WHERE u.email = ?");
         $stmt->execute([$email]);
         
         if ($stmt->rowCount() === 0) {
@@ -55,42 +52,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: login.php');
             exit();
         }
-        
-        // VALIDAR que el tipo de acceso coincida con el tipo real
-        $esAdmin = ($usuario['idTipoUsuario'] == 1 || $usuario['idTipoUsuario'] == 2);
-        $esCliente = ($usuario['idTipoUsuario'] == 3);
-        
-        if ($tipoAcceso === 'admin' && !$esAdmin) {
-            $_SESSION['errores_login'] = ["Esta cuenta no tiene permisos de administrador. Usa 'Soy Cliente'."];
-            $_SESSION['datos_login'] = ['email' => $email];
-            header('Location: login.php');
-            exit();
-        }
-        
-        if ($tipoAcceso === 'cliente' && !$esCliente) {
-            $_SESSION['errores_login'] = ["Esta cuenta no tiene permisos de cliente. Usa 'Soy Admin/Tienda'."];
-            $_SESSION['datos_login'] = ['email' => $email];
-            header('Location: login.php');
-            exit();
-        }
 
         // Login exitoso - guardar datos en sesión
         $_SESSION['usuario_id'] = $usuario['idUsuario'];
         $_SESSION['usuario_nombre'] = $usuario['nombre'];
         $_SESSION['usuario_email'] = $usuario['email'];
         $_SESSION['usuario_tipo'] = $usuario['idTipoUsuario'];
+        $_SESSION['usuario_tipo_nombre'] = $usuario['tipo_nombre'];
         $_SESSION['login_exitoso'] = true;
 
-        // Sincronizar carrito invitado si existe (usando tu carritoController existente)
+        // Sincronizar carrito invitado si existe
         if (isset($_SESSION['carrito_invitado']) && !empty($_SESSION['carrito_invitado'])) {
-            require_once '../includes/controllers/carritoController.php';
-            $carritoController = new CarritoController($pdo);
-            $carritoController->sincronizarConUsuario($usuario['idUsuario'], $pdo);
+            if (file_exists('../includes/controllers/carritoController.php')) {
+                require_once '../includes/controllers/carritoController.php';
+                $carritoController = new CarritoController($pdo);
+                $carritoController->sincronizarConUsuario($usuario['idUsuario'], $pdo);
+            }
         }
         
-        // Redirigir según el tipo de usuario
+        // Redirigir según el tipo de usuario (sin necesidad de selector)
         // idTipoUsuario: 1=Administrador, 2=Gerente, 3=Cliente
-        if ($esAdmin) {
+        if ($usuario['idTipoUsuario'] == 1 || $usuario['idTipoUsuario'] == 2) {
             // Administrador o Gerente
             header('Location: admin/dashboard.php');
         } else {

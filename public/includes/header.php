@@ -11,6 +11,7 @@ $sesion_iniciada = isset($_SESSION['usuario_id']) && !empty($_SESSION['usuario_i
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="./assets/css/authStyleSheet.css">
+    <link rel="icon" href="assets/multimedia/pictures/icon.png" type="image/x-icon">
     
     <?php if (isset($css_adicional)): ?>
         <link rel="stylesheet" href="<?php echo $css_adicional; ?>">
