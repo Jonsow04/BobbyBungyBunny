@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+// Depuración
+error_log("=== PROCESAR LOGIN ===");
+error_log("POST recibido: " . print_r($_POST, true));
+
 require_once '../includes/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

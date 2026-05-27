@@ -179,7 +179,7 @@ include 'includes/header.php';
                 <?php endif; ?>
                 
                 <p class="auth-link">
-                    ¿Ya tienes cuenta? <a href="login.php">Iniciar sesión</a>
+                    ¿Ya tienes una cuenta? <a href="login.php">Iniciar sesión</a>
                 </p>
                 
             </form>

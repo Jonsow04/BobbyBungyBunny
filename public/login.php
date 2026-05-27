@@ -1,6 +1,12 @@
 <?php 
 session_start();
 $titulo = 'Iniciar sesión | Bobby Bunny Shop';
+
+// Verificar si viene de cerrar sesión
+if (isset($_GET['logout']) && $_GET['logout'] === 'exitoso') {
+    $_SESSION['logout_exitoso'] = true;
+}
+
 include 'includes/header.php';
 ?>
 
@@ -14,27 +20,28 @@ include 'includes/header.php';
             <h1>Bienvenido</h1>
             <p class="subtitulo">Inicia sesión en Conejos.com</p>
 
-            //Selector de tipo de acceso
-            <div class="selector-tipo">
-                <div class="selector-opcion <?php echo ($_POST['tipo_acceso'] ?? 'cliente') == 'cliente' ? 'active' : ''; ?>" 
-                    data-tipo="cliente"
-                    onclick="seleccionarTipo('cliente')">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span>Soy Cliente</span>
-                </div>
-                <div class="selector-opcion <?php echo ($_POST['tipo_acceso'] ?? '') == 'admin' ? 'active' : ''; ?>" 
-                    data-tipo="admin"
-                    onclick="seleccionarTipo('admin')">
-                    <i class="fas fa-store"></i>
-                    <span>Soy Admin/Tienda</span>
-                </div>
-            </div>
-
-            <input type="hidden" name="tipo_acceso" id="tipo_acceso" value="<?php echo htmlspecialchars($_POST['tipo_acceso'] ?? 'cliente'); ?>">
-            
-            <div class="divisor"><span>✦</span></div>
-
             <form action="procesarLogin.php" method="POST" id="loginForm">
+                
+                <!-- Selector de tipo de acceso -->
+                <div class="selector-tipo">
+                    <div class="selector-opcion <?php echo (($_POST['tipo_acceso'] ?? 'cliente') == 'cliente') ? 'active' : ''; ?>" 
+                        data-tipo="cliente"
+                        onclick="seleccionarTipo('cliente')">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span>Soy Cliente</span>
+                    </div>
+                    <div class="selector-opcion <?php echo (($_POST['tipo_acceso'] ?? '') == 'admin') ? 'active' : ''; ?>" 
+                        data-tipo="admin"
+                        onclick="seleccionarTipo('admin')">
+                        <i class="fas fa-store"></i>
+                        <span>Soy Admin/Tienda</span>
+                    </div>
+                </div>
+
+                <input type="hidden" name="tipo_acceso" id="tipo_acceso" value="<?php echo htmlspecialchars($_POST['tipo_acceso'] ?? 'cliente'); ?>">
+                
+                <div class="divisor"><span>✦</span></div>
+
                 <div class="campo">
                     <label for="email">Correo electrónico</label>
                     <div class="input-wrap">
@@ -83,7 +90,7 @@ include 'includes/header.php';
                 <!-- Mostrar mensaje de cierre de sesión -->
                 <?php if (isset($_SESSION['logout_exitoso'])): ?>
                     <div class="alert alert-success">
-                        <strong>✅ Sesión cerrada correctamente</strong>
+                        <strong>Sesión cerrada correctamente</strong>
                         <p style="margin: 10px 0 0 0;">Has cerrado sesión exitosamente.</p>
                     </div>
                     <?php unset($_SESSION['logout_exitoso']); ?>
@@ -125,28 +132,7 @@ include 'includes/header.php';
     }
     </style>
 
-    <script>
-        // Mostrar/ocultar contraseña
-        const togglePassword = document.getElementById('togglePassword');
-        const password = document.getElementById('contrasena');
-        
-        if (togglePassword && password) {
-            togglePassword.addEventListener('click', function() {
-                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-                password.setAttribute('type', type);
-                this.querySelector('i').classList.toggle('fa-eye');
-                this.querySelector('i').classList.toggle('fa-eye-slash');
-            });
-        }
-        function seleccionarTipo(tipo) {
-            document.getElementById('tipo_acceso').value = tipo;
-            document.querySelectorAll('.selector-opcion').forEach(opt => {
-                opt.classList.remove('active');
-                if (opt.dataset.tipo === tipo) opt.classList.add('active');
-            });
-        }
-
-    </script>
+    <script src="assets/js/loginScripts.js"></script>
 </body>
 
 </html>
