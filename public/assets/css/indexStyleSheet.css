@@ -673,7 +673,7 @@ main {
     text-align: center;
     grid-column: 1 / -1;
     padding: 50px;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Cormorant Garamond', serif;
     font-size: 1.2rem;
     color: var(--cafe-noir);
     background-color: white;

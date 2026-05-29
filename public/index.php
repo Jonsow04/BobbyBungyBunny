@@ -67,7 +67,7 @@ try {
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="icon" href="assets/multimedia/pictures/icon-pagina.png">
+    <link rel="icon" href="assets/multimedia/pictures/icon.png" type="image/x-icon">
     <link rel="stylesheet" href="./assets/css/indexStyleSheet.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="./assets/js/bunnyScripts.js" defer></script>
@@ -118,6 +118,7 @@ try {
                             </p>
                         </a>
 
+                        
                         <button class="btn-carrito" 
                                 data-id="<?php echo $articulo['idArticulo']; ?>"
                                 data-nombre="<?php echo $articulo['nombre']; ?>"

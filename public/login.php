@@ -1,22 +1,27 @@
 <?php 
 session_start();
 $titulo = 'Iniciar sesión | Bobby Bunny Shop';
+
+// Verificar si viene de cerrar sesión
+if (isset($_GET['logout']) && $_GET['logout'] === 'exitoso') {
+    $_SESSION['logout_exitoso'] = true;
+}
+
 include 'includes/header.php';
 ?>
 
 <!DOCTYPE html>
-<html lang="es">
 
 <body>
     <div class="auth-wrapper">
         <div class="auth-card">
-            
             <h1>Bienvenido</h1>
             <p class="subtitulo">Inicia sesión en Conejos.com</p>
-            
+
             <div class="divisor"><span>✦</span></div>
 
             <form action="procesarLogin.php" method="POST" id="loginForm">
+                
                 <div class="campo">
                     <label for="email">Correo electrónico</label>
                     <div class="input-wrap">
@@ -43,7 +48,7 @@ include 'includes/header.php';
                 <!-- Mostrar errores de login -->
                 <?php if (isset($_SESSION['errores_login']) && !empty($_SESSION['errores_login'])): ?>
                     <div class="alert alert-danger">
-                        <strong>⚠️ Error al iniciar sesión</strong>
+                        <strong>Error al iniciar sesión</strong>
                         <ul>
                             <?php foreach ($_SESSION['errores_login'] as $error): ?>
                                 <li><?php echo htmlspecialchars($error); ?></li>
@@ -56,7 +61,7 @@ include 'includes/header.php';
                 <!-- Mostrar mensaje de registro exitoso -->
                 <?php if (isset($_SESSION['registro_exitoso'])): ?>
                     <div class="alert alert-success">
-                        <strong>✅ ¡Cuenta creada exitosamente!</strong>
+                        <strong>¡Cuenta creada exitosamente!</strong>
                         <p style="margin: 10px 0 0 0;">Ahora puedes iniciar sesión con tu correo y contraseña.</p>
                     </div>
                     <?php unset($_SESSION['registro_exitoso']); ?>
@@ -65,7 +70,7 @@ include 'includes/header.php';
                 <!-- Mostrar mensaje de cierre de sesión -->
                 <?php if (isset($_SESSION['logout_exitoso'])): ?>
                     <div class="alert alert-success">
-                        <strong>✅ Sesión cerrada correctamente</strong>
+                        <strong>Sesión cerrada correctamente</strong>
                         <p style="margin: 10px 0 0 0;">Has cerrado sesión exitosamente.</p>
                     </div>
                     <?php unset($_SESSION['logout_exitoso']); ?>
@@ -80,20 +85,7 @@ include 'includes/header.php';
 
     <?php include 'includes/footer.php'; ?>
 
-    <script>
-        // Mostrar/ocultar contraseña
-        const togglePassword = document.getElementById('togglePassword');
-        const password = document.getElementById('contrasena');
-        
-        if (togglePassword && password) {
-            togglePassword.addEventListener('click', function() {
-                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-                password.setAttribute('type', type);
-                this.querySelector('i').classList.toggle('fa-eye');
-                this.querySelector('i').classList.toggle('fa-eye-slash');
-            });
-        }
-    </script>
+    <script src="assets/js/loginScripts.js"></script>
 </body>
 
 </html>

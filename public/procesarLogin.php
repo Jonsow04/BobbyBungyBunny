@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['contrasena'] ?? '';
-    
+
     $errores = [];
     
     // Validar que los campos no estén vacíos
@@ -30,7 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo = getConnection();
         
         // Buscar usuario por email
-        $stmt = $pdo->prepare("SELECT idUsuario, nombre, email, password_hash, idTipoUsuario FROM usuario WHERE email = ?");
+        $stmt = $pdo->prepare("SELECT u.idUsuario, u.nombre, u.email, u.password_hash, u.idTipoUsuario, tu.nombre as tipo_nombre 
+                               FROM usuario u 
+                               INNER JOIN tipousuario tu ON u.idTipoUsuario = tu.idTipoUsuario 
+                               WHERE u.email = ?");
         $stmt->execute([$email]);
         
         if ($stmt->rowCount() === 0) {
@@ -49,15 +52,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: login.php');
             exit();
         }
-        
+
         // Login exitoso - guardar datos en sesión
         $_SESSION['usuario_id'] = $usuario['idUsuario'];
         $_SESSION['usuario_nombre'] = $usuario['nombre'];
         $_SESSION['usuario_email'] = $usuario['email'];
         $_SESSION['usuario_tipo'] = $usuario['idTipoUsuario'];
+        $_SESSION['usuario_tipo_nombre'] = $usuario['tipo_nombre'];
         $_SESSION['login_exitoso'] = true;
+
+        // Sincronizar carrito invitado si existe
+        if (isset($_SESSION['carrito_invitado']) && !empty($_SESSION['carrito_invitado'])) {
+            if (file_exists('../includes/controllers/carritoController.php')) {
+                require_once '../includes/controllers/carritoController.php';
+                $carritoController = new CarritoController($pdo);
+                $carritoController->sincronizarConUsuario($usuario['idUsuario'], $pdo);
+            }
+        }
         
-        // Redirigir según el tipo de usuario
+        // Redirigir según el tipo de usuario (sin necesidad de selector)
         // idTipoUsuario: 1=Administrador, 2=Gerente, 3=Cliente
         if ($usuario['idTipoUsuario'] == 1 || $usuario['idTipoUsuario'] == 2) {
             // Administrador o Gerente
