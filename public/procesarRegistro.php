@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../includes/config.php';
+require_once '../includes/helpers/sanitize.php';
 
 // === DEPURACIÓN ===
 error_log("=== PROCESAR REGISTRO ===");
@@ -227,6 +228,45 @@ function validarEstado($estado) {
 // ========== PROCESAR FORMULARIO ==========
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // Sanitizar todos los campos
+    $nombre = SanitizeHelper::sanitizarNombre($_POST['nombre'] ?? '');
+    $apPat = SanitizeHelper::sanitizarNombre($_POST['apellido_paterno'] ?? '');
+    $apMat = SanitizeHelper::sanitizarNombre($_POST['apellido_materno'] ?? '');
+    $email = SanitizeHelper::sanitizarEmail($_POST['email'] ?? '');
+    $celular = SanitizeHelper::sanitizarTelefono($_POST['celular'] ?? '');
+    $fechaNac = $_POST['fecha_nacimiento'] ?? '';
+    $password = $_POST['contrasena'] ?? '';
+    $confirmPassword = $_POST['contrasenaconfirm'] ?? '';
+
+    $tipoCuenta = $_POST['tipo_cuenta'] ?? 'cliente';
+    $codigoAdmin = $_POST['codigo_admin'] ?? '';
+    
+    // Validar código de administrador
+    $validacionCodigo = validarCodigoAdmin($codigoAdmin, $tipoCuenta);
+    if ($validacionCodigo !== true) {
+        $_SESSION['errores_registro'] = ['codigo_admin' => $validacionCodigo];
+        $_SESSION['datos_registro'] = $_POST;
+        header('Location: registro.php');
+        exit();
+    }
+    
+    // Determinar el idTipoUsuario basado en el tipo de cuenta
+    if ($tipoCuenta === 'admin') {
+        $idTipoUsuario = 1; // Administrador
+    } else {
+        $idTipoUsuario = 3; // Cliente
+    }
+
+    // Validar fecha
+    if (!SanitizeHelper::validarFecha($fechaNac)) {
+        $errores['fecha_nacimiento'] = "Formato de fecha inválido";
+    }
+    
+    // Validar edad mínima
+    if (!SanitizeHelper::validarEdadMinima($fechaNac, 18)) {
+        $errores['fecha_nacimiento'] = "Debes tener al menos 18 años";
+    }
     
     try {
         $pdo = getConnection();

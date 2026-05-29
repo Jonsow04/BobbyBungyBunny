@@ -207,6 +207,242 @@ main {
 }
 
 /* AQUÍ ESCRIBEN LOS ESTILOS EXTRA QUE NECESITEN */
+
+/* Estilos específicos para checkout */
+.checkout-main {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+.checkout-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.checkout-header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--cafe-noir);
+    margin-bottom: 0.5rem;
+}
+
+.checkout-header p {
+    color: var(--verde-moss);
+    font-size: 1rem;
+}
+
+.checkout-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 2rem;
+}
+
+/* Sección de dirección */
+.checkout-section {
+    background: var(--fondo);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: var(--sombra);
+    border: 1px solid rgba(76, 61, 25, 0.1);
+}
+
+.section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--cafe-noir);
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--tan);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section-title i {
+    color: var(--verde-moss);
+    font-size: 1.2rem;
+}
+
+/* Tarjeta de dirección */
+.direccion-card {
+    background: var(--hueso);
+    border-radius: 12px;
+    padding: 1.2rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    border-left: 4px solid var(--verde-moss);
+}
+
+.direccion-card i {
+    color: var(--verde-moss);
+    font-size: 1.3rem;
+    margin-top: 2px;
+}
+
+.direccion-texto {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--cafe-noir);
+}
+
+.editar-link {
+    display: inline-block;
+    margin-top: 0.8rem;
+    font-size: 0.8rem;
+    color: var(--verde-moss);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.editar-link:hover {
+    color: var(--cafe-noir);
+}
+
+.editar-link i {
+    font-size: 0.75rem;
+    margin-right: 0.3rem;
+}
+
+/* Resumen del pedido */
+.resumen-items {
+    margin-bottom: 1.5rem;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.resumen-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--tan);
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.resumen-item:last-child {
+    border-bottom: none;
+}
+
+.resumen-item-nombre {
+    color: var(--cafe-noir);
+    font-size: 1rem;
+}
+
+.resumen-item-nombre small {
+    color: var(--verde-moss);
+    font-size: 0.8rem;
+}
+
+.resumen-item-precio {
+    font-weight: 600;
+    color: var(--cafe-noir);
+}
+
+.resumen-divisor {
+    height: 1px;
+    background: var(--tan);
+    margin: 1rem 0;
+}
+
+.resumen-linea {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--texto-medio);
+}
+
+.resumen-total {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--cafe-noir);
+    border-top: 2px solid var(--tan);
+    margin-top: 0.5rem;
+    padding-top: 0.8rem;
+}
+
+.total-valor {
+    font-size: 1.4rem;
+    color: var(--verde-kombu);
+}
+
+/* Botón de confirmar */
+.btn-confirmar {
+    width: 100%;
+    padding: 1rem;
+    background: var(--cafe-noir);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-confirmar:hover {
+    background: var(--verde-kombu);
+    transform: translateY(-2px);
+}
+
+/* Alertas */
+.alert {
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.alert-danger {
+    background: #f8e6e6;
+    color: #b33a3a;
+    border-left: 4px solid #b33a3a;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .checkout-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .checkout-main {
+        padding: 0 1rem;
+    }
+
+    .checkout-header h1 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .checkout-section {
+        padding: 1rem;
+    }
+
+    .resumen-item {
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+
+    .resumen-item-precio {
+        align-self: flex-end;
+    }
+}
+
 .confirmacion-container {
     max-width: 800px;
     margin: 3rem auto;

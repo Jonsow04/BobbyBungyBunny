@@ -8,17 +8,17 @@
 
 /* Paleta de colores elegante */
 :root {
-    --cafe-noir:   #4c3d19;
+    --cafe-noir: #4c3d19;
     --verde-kombu: #354024;
-    --verde-moss:  #889063;
-    --tan:         #cfbb99;
-    --hueso:       #e5d7c4;
-    --fondo:       #f9f6ee;
-    --sombra:      0 8px 32px rgba(76, 61, 25, 0.15);
-    --error:       #b33a3a;
-    --error-bg:    #f8e6e6;
-    --success:     #2d6a4f;
-    --success-bg:  #e3f5ef;
+    --verde-moss: #889063;
+    --tan: #cfbb99;
+    --hueso: #e5d7c4;
+    --fondo: #f9f6ee;
+    --sombra: 0 8px 32px rgba(76, 61, 25, 0.15);
+    --error: #b33a3a;
+    --error-bg: #f8e6e6;
+    --success: #2d6a4f;
+    --success-bg: #e3f5ef;
 }
 
 body {
@@ -200,8 +200,15 @@ body {
 }
 
 @keyframes aparecer {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .auth-card h1 {
@@ -265,7 +272,7 @@ body {
     align-items: center;
 }
 
-.input-wrap > i {
+.input-wrap>i {
     position: absolute;
     left: 12px;
     color: var(--verde-moss);
@@ -435,6 +442,45 @@ body {
     margin-bottom: 5px;
 }
 
+.selector-tipo-cuenta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.selector-opcion {
+    flex: 1;
+    text-align: center;
+    padding: 0.8rem;
+    border: 2px solid var(--tan);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.selector-opcion.active {
+    background: var(--cafe-noir);
+    color: white;
+    border-color: var(--cafe-noir);
+}
+
+.selector-opcion i {
+    font-size: 1.2rem;
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.selector-opcion.active i {
+    color: white;
+}
+
+.ayuda-texto {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.7rem;
+    color: var(--verde-moss);
+}
+
 /* ============================================
    FOOTER
    ============================================ */
@@ -460,12 +506,30 @@ footer {
         gap: 0.8rem;
     }
 
-    .barra-busqueda { width: 200px; }
-    .nav-ul { gap: 1rem; }
-    .barra-nav a { font-size: 0.9rem; }
-    .barra-nav-sec { padding: 0.2rem 1rem; overflow-x: auto; }
-    .barra-nav-sec .nav-ul { gap: 1rem; }
-    .barra-nav-sec a { font-size: 0.9rem; }
+    .barra-busqueda {
+        width: 200px;
+    }
+
+    .nav-ul {
+        gap: 1rem;
+    }
+
+    .barra-nav a {
+        font-size: 0.9rem;
+    }
+
+    .barra-nav-sec {
+        padding: 0.2rem 1rem;
+        overflow-x: auto;
+    }
+
+    .barra-nav-sec .nav-ul {
+        gap: 1rem;
+    }
+
+    .barra-nav-sec a {
+        font-size: 0.9rem;
+    }
 
     .auth-card {
         padding: 2.5rem 2rem;
@@ -489,7 +553,10 @@ footer {
         gap: 1.2rem;
     }
 
-    .barra-nav-sec { justify-content: center; }
+    .barra-nav-sec {
+        justify-content: center;
+    }
+
     .barra-nav-sec .nav-ul {
         flex-wrap: wrap;
         justify-content: center;
@@ -499,15 +566,15 @@ footer {
     .auth-card {
         padding: 2rem 1.4rem;
     }
-    
+
     .auth-card.registro {
         padding: 1.8rem 1.2rem;
     }
-    
+
     .auth-card h1 {
         font-size: 1.6rem;
     }
-    
+
     .conejo-icon {
         font-size: 2.5rem;
     }

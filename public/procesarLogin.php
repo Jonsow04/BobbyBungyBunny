@@ -1,11 +1,13 @@
 <?php
 session_start();
 require_once '../includes/config.php';
+require_once '../includes/helpers/sanitize.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
-    $email = trim($_POST['email'] ?? '');
-    $password = $_POST['contrasena'] ?? '';
+
+    // Sanitizar entrada
+    $email = SanitizeHelper::sanitizarEmail($_POST['email'] ?? '');
+    $password = $_POST['contrasena'] ?? ''; // No sanitizar contraseña
 
     $errores = [];
     

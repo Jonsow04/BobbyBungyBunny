@@ -1,8 +1,13 @@
 <?php
-// public/confirmacion.php
 session_start();
+$titulo = 'Finalizar compra | Bobby Bunny Shop';
+$css_adicional = 'assets/css/checkoutStyleSheet.css';
+include 'includes/header.php';
+
 require_once __DIR__ . '/../includes/config.php';
-require_once __DIR__ . '/../includes/models/pedido.php';
+require_once __DIR__ . '/../includes/controllers/pedidoController.php';
+require_once __DIR__ . '/../includes/controllers/carritoController.php';
+require_once __DIR__ . '/../includes/helpers/sanitize.php';
 
 // Verificar que el usuario esté logueado
 if (!isset($_SESSION['usuario_id'])) {
@@ -10,99 +15,141 @@ if (!isset($_SESSION['usuario_id'])) {
     exit();
 }
 
-$pedidoId = $_GET['pedido'] ?? 0;
+$pdo = getConnection();
+$usuarioId = $_SESSION['usuario_id'];
 
-if (!$pedidoId) {
+// Obtener la dirección del usuario desde la base de datos
+$stmt = $pdo->prepare("
+    SELECT d.* 
+    FROM direccion d 
+    INNER JOIN usuario u ON u.idDireccion = d.idDireccion 
+    WHERE u.idUsuario = ?
+");
+$stmt->execute([$usuarioId]);
+$direccionUsuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Verificar si el usuario tiene dirección registrada
+if (!$direccionUsuario) {
+    $_SESSION['error_direccion'] = "No tienes una dirección registrada. Por favor, actualiza tu perfil antes de continuar.";
+    header('Location: perfil.php');
+    exit();
+}
+
+// Formatear dirección completa con valores sanitizados
+$direccionCompleta = sprintf(
+    "%s %s, %s, %s, %s, CP %s",
+    $direccionUsuario['calle'],
+    $direccionUsuario['numCasa'],
+    $direccionUsuario['colonia'],
+    $direccionUsuario['ciudad'],
+    $direccionUsuario['estado'],
+    SanitizeHelper::sanitizarCP($direccionUsuario['cp'])
+);
+
+$pedidoController = new PedidoController($pdo);
+$carritoController = new CarritoController($pdo);
+$resumenCarrito = $carritoController->getResumen();
+
+if ($resumenCarrito['total_items'] == 0) {
     header('Location: index.php');
     exit();
 }
 
-$pdo = getConnection();
-$pedidoModel = new Pedido($pdo);
-$pedido = $pedidoModel->obtenerPorId($pedidoId);
-$detalles = $pedidoModel->obtenerDetalles($pedidoId);
+$error = null;
 
-// Verificar que el pedido pertenece al usuario
-if ($pedido['idUsuario'] != $_SESSION['usuario_id']) {
-    header('Location: index.php');
-    exit();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Sanitizar la dirección por si viene del formulario (aunque sea readonly)
+    $direccionEnvio = SanitizeHelper::sanitizarDireccion($direccionCompleta);
+    
+    $resultado = $pedidoController->crearPedido($usuarioId, $direccionEnvio);
+    
+    if ($resultado['success']) {
+        header('Location: confirmacion.php?pedido=' . $resultado['pedido_id']);
+        exit();
+    } else {
+        $error = SanitizeHelper::limpiarTexto($resultado['error']);
+    }
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pedido confirmado | Bobby Bunny Shop!</title>
-    <link rel="icon" href="assets/multimedia/pictures/icon-pagina.png">
-    <link rel="stylesheet" href="assets/css/checkoutStyleSheet.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/checkoutStyleSheet.css">
 </head>
 
-<body>
-    <header>
-        <nav class="barra-nav">
-            <a href="index.php"><img src="assets/multimedia/pictures/icon.png" alt="Miffy" class="icono"></a>
-            <ul class="nav-ul">
-                <li><a href="index.php">Tienda</a></li>
-                <li><a href="mis-pedidos.php">Mis pedidos</a></li>
-                <li><a href="logout.php">Cerrar sesión</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <div class="confirmacion-container">
-            <div class="icono-exito">
-                <i class="fas fa-check-circle"></i>
-            </div>
-            
-            <h1>¡Pedido confirmado!</h1>
-            <p>Gracias por tu compra. Hemos recibido tu pedido correctamente.</p>
-            
-            <div class="pedido-info">
-                <p><strong>Número de pedido:</strong> #<?php echo str_pad($pedido['idPedido'], 8, '0', STR_PAD_LEFT); ?></p>
-                <p><strong>Fecha:</strong> <?php echo date('d/m/Y H:i', strtotime($pedido['fecha'])); ?></p>
-                <p><strong>Estado:</strong> <?php echo $pedido['estatus_nombre']; ?></p>
-                <p><strong>Dirección de envío:</strong> <?php echo nl2br(htmlspecialchars($pedido['direccion'])); ?></p>
-                
-                <h3>Productos:</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Producto</th>
-                            <th>Cantidad</th>
-                            <th>Precio</th>
-                            <th>Subtotal</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($detalles as $detalle): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($detalle['articulo_nombre']); ?></td>
-                            <td><?php echo $detalle['cantidad']; ?></td>
-                            <td>$<?php echo number_format($detalle['precioUnitario'], 2); ?></td>
-                            <td>$<?php echo number_format($detalle['precioUnitario'] * $detalle['cantidad'], 2); ?></td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-                
-                <p style="text-align: right; font-size: 1.2rem; margin-top: 1rem;">
-                    <strong>Total: $<?php echo number_format($pedido['total'], 2); ?></strong>
-                </p>
-            </div>
-            
-            <a href="index.php" class="btn-seguir">
-                <i class="fas fa-shopping-cart"></i> Seguir comprando
-            </a>
-            <a href="mis-pedidos.php" class="btn-seguir btn-ver-pedidos">
-                <i class="fas fa-list"></i> Ver mis pedidos
-            </a>
+<main class="checkout-main">
+    <div class="checkout-header">
+        <h1><i class="fas fa-credit-card"></i> Finalizar compra</h1>
+        <p>Revisa los detalles de tu pedido antes de confirmar</p>
+    </div>
+    
+    <?php if (isset($error)): ?>
+        <div class="alert alert-danger">
+            <i class="fas fa-exclamation-circle"></i>
+            <?php echo htmlspecialchars($error); ?>
         </div>
-    </main>
+    <?php endif; ?>
+    
+    <form method="POST" id="checkoutForm">
+        <div class="checkout-grid">
+            <!-- Columna izquierda: Dirección de envío -->
+            <div class="checkout-section">
+                <div class="section-title">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Dirección de envío</span>
+                </div>
+                
+                <div class="direccion-card">
+                    <i class="fas fa-home"></i>
+                    <div class="direccion-texto">
+                        <?php echo nl2br(htmlspecialchars($direccionCompleta)); ?>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Columna derecha: Resumen del pedido -->
+            <div class="checkout-section">
+                <div class="section-title">
+                    <i class="fas fa-shopping-basket"></i>
+                    <span>Resumen del pedido</span>
+                </div>
+                
+                <div class="resumen-items">
+                    <?php foreach ($resumenCarrito['items'] as $item): ?>
+                        <div class="resumen-item">
+                            <div class="resumen-item-nombre">
+                                <?php echo htmlspecialchars($item['nombre']); ?>
+                                <small>x<?php echo $item['cantidad']; ?></small>
+                            </div>
+                            <div class="resumen-item-precio">
+                                $<?php echo number_format($item['precio'] * $item['cantidad'], 2); ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                
+                <div class="resumen-divisor"></div>
+                
+                <div class="resumen-linea">
+                    <span>Subtotal</span>
+                    <span>$<?php echo number_format($resumenCarrito['subtotal'], 2); ?></span>
+                </div>
+                
+                <div class="resumen-linea">
+                    <span>Envío</span>
+                    <span>Gratis</span>
+                </div>
+                
+                <div class="resumen-linea resumen-total">
+                    <span>Total</span>
+                    <span class="total-valor">$<?php echo number_format($resumenCarrito['total'], 2); ?></span>
+                </div>
+                
+                <button type="submit" class="btn-confirmar">
+                    <i class="fas fa-check-circle"></i> Confirmar pedido
+                </button>
+            </div>
+        </div>
+    </form>
+</main>
 
-</body>
-
-</html>
+<?php include 'includes/footer.php'; ?>

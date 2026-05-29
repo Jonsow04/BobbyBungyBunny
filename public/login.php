@@ -11,6 +11,9 @@ include 'includes/header.php';
 ?>
 
 <!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="./assets/css/authStyleSheet.css">
+</head>
 
 <body>
     <div class="auth-wrapper">

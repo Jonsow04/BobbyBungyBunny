@@ -3,6 +3,7 @@
 session_start();
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/controllers/carritoController.php';
+require_once __DIR__ . '/../includes/helpers/sanitize.php';
 
 header('Content-Type: application/json');
 
@@ -11,32 +12,32 @@ $carritoController = new CarritoController($pdo);
 $response = ['success' => false];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $action = $_POST['action'] ?? '';
+    $action = SanitizeHelper::limpiarTexto($_POST['action'] ?? '');
     
     switch ($action) {
         case 'agregar':
-            $id = $_POST['id'] ?? null;
-            $nombre = $_POST['nombre'] ?? '';
-            $precio = $_POST['precio'] ?? 0;
-            $cantidad = $_POST['cantidad'] ?? 1;
+            $id = SanitizeHelper::validarInt($_POST['id'] ?? 0);
+            $nombre = SanitizeHelper::limpiarTexto($_POST['nombre'] ?? '');
+            $precio = SanitizeHelper::validarFloat($_POST['precio'] ?? 0);
+            $cantidad = SanitizeHelper::validarInt($_POST['cantidad'] ?? 1, 1);
             
-            if ($id && $nombre && $precio) {
+            if ($id && $nombre && $precio && $cantidad) {
                 $response = $carritoController->agregarProducto($id, $nombre, $precio, $cantidad, $pdo);
             } else {
-                $response['error'] = 'Faltan datos del producto';
+                $response['error'] = 'Datos de producto inválidos';
             }
             break;
             
         case 'actualizar':
-            $id = $_POST['id'] ?? null;
-            $cantidad = $_POST['cantidad'] ?? 1;
-            if ($id) {
+            $id = SanitizeHelper::validarInt($_POST['id'] ?? 0);
+            $cantidad = SanitizeHelper::validarInt($_POST['cantidad'] ?? 1, 1);
+            if ($id && $cantidad) {
                 $response = $carritoController->actualizarCantidad($id, $cantidad);
             }
             break;
             
         case 'eliminar':
-            $id = $_POST['id'] ?? null;
+            $id = SanitizeHelper::validarInt($_POST['id'] ?? 0);
             if ($id) {
                 $response = $carritoController->eliminarProducto($id);
             }

@@ -20,6 +20,27 @@ document.addEventListener('DOMContentLoaded', function() {
     const estadoInput = document.getElementById('estado');
     
     const form = document.querySelector('form');
+
+    function seleccionarTipoCuenta(tipo) {
+        document.getElementById('tipo_cuenta').value = tipo;
+        
+        // Actualizar clases activas
+        document.querySelectorAll('.selector-opcion').forEach(opt => {
+            opt.classList.remove('active');
+            if (opt.dataset.tipo === tipo) opt.classList.add('active');
+        });
+        
+        // Mostrar u ocultar el campo de código de administrador
+        const codigoContainer = document.getElementById('codigoAdminContainer');
+        if (tipo === 'admin') {
+            codigoContainer.style.display = 'block';
+            document.getElementById('codigo_admin').setAttribute('required', 'required');
+        } else {
+            codigoContainer.style.display = 'none';
+            document.getElementById('codigo_admin').removeAttribute('required');
+            document.getElementById('codigo_admin').value = '';
+        }
+    }
     
     // Función para crear contenedor de mensaje debajo de un campo
     function createMessageContainer(inputElement, messageId) {

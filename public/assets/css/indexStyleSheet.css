@@ -49,10 +49,14 @@ main {
 }
 
 /* Logo */
-.icono {
-    width: 25px;
+.icono-img {
+    width: 50px;
     height: auto;
     flex-shrink: 0;
+}
+
+.icono-fallback {
+    font-size: 1.5rem;
 }
 
 /* Contenedor del menú (búsqueda + enlaces) */
@@ -587,15 +591,15 @@ main {
     z-index: 100;
     bottom: 125%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%); 
     white-space: normal;
     width: 220px;
-    font-size: 0.85rem;
+    font-size: 1.3rem;
     line-height: 1.4;
     opacity: 0;
     transition: opacity 0.3s ease, visibility 0.3s ease;
     pointer-events: none;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Cormorant Garamond', serif;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -618,7 +622,7 @@ main {
 
 /* Precio del producto */
 .precio {
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Cormorant Garamond', serif;
     font-weight: 800;
     color: var(--verde-moss);
     font-size: 1.3rem;
@@ -627,10 +631,10 @@ main {
 
 /* Stock */
 .stock {
-    font-size: 0.75rem;
+    font-size: 1rem;
     color: var(--marron-acento);
     margin: 5px 0;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Cormorant Garamond', serif;
 }
 
 .sin-stock {
@@ -646,7 +650,7 @@ main {
     border: none;
     padding: 8px 12px;
     border-radius: 30px;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Cormorant Garamond', serif;
     font-weight: 600;
     font-size: 0.85rem;
     color: var(--cafe-noir);
@@ -709,6 +713,31 @@ main {
     font-size: 4rem;
     color: var(--cafe-noir);
     opacity: 0.5;
+}
+
+/* Badge del carrito */
+.carrito-badge {
+    position: absolute;
+    top: -10px;
+    right: -12px;
+    background-color: #e74c3c;
+    color: white;
+    font-size: 0.65rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 50%;
+    min-width: 18px;
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+footer {
+    background-color: var(--cafe-noir);
+    color: var(--hueso);
+    margin-top: 0.5em;
+    text-align: center;
+    padding: 1rem 1rem 1rem;
+    font-family: 'Cormorant Garamond', serif;
 }
 
 /* ============================================
