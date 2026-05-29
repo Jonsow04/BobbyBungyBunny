@@ -60,7 +60,7 @@
                 precio: parseFloat(item.precio),
                 stock: item.stock,
                 idCategoria: item.idCatArticulo,
-                imagen: item.imagen || config.defaultImagen || `assets/multimedia/pictures/producto-${item.idArticulo}.png`
+                imagen: item.imagen || config.defaultImagen || `assets/multimedia/pictures/articulos/${item.idArticulo}.png`
             };
         }
 

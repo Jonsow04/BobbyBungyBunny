@@ -98,15 +98,15 @@ try {
                                 <?php echo $articulo['descripcion']; ?>
                             </div>
                             
-                            <?php if ($articulo['imagen_url']): ?>
-                                <img src="<?php echo $articulo['imagen_url']; ?>" 
-                                     alt="<?php echo $articulo['nombre']; ?>" 
-                                     class="producto-imagen">
-                            <?php else: ?>
-                                <div class="imagen-placeholder">
+                            <?php 
+                            $rutaImagen = 'assets/multimedia/pictures/articulos/' . $articulo['idArticulo'] . '.png';?>
+                                <img src="<?php echo $rutaImagen; ?>" 
+                                    alt="<?php echo $articulo['nombre']; ?>" 
+                                    class="producto-imagen"
+                                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="imagen-placeholder" style="display: none;">
                                     <i class="fas fa-carrot"></i>
                                 </div>
-                            <?php endif; ?>
                             
                             <h3><?php echo $articulo['nombre']; ?></h3>
                             <p class="precio">$<?php echo number_format($articulo['precio'], 2); ?></p>
