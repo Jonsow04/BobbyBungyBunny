@@ -25,28 +25,17 @@ $resumen = $carritoController->getResumen();
     <header>
         <nav class="barra-nav">
             <a href="index.php"><img src="assets/multimedia/pictures/icon.png" alt="Miffy" class="icono"></a>
-            <form class="barra-busqueda" action="">
-                <input type="search" placeholder="Buscar productos...">
-                <button type="submit" class="boton-busqueda">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
             <ul class="nav-ul">
                 <li>
-                    <a href="carrito.php" style="position:relative;">
-                        <i class="fas fa-shopping-bag"></i>
-                    </a>
+                    <form action="" class="barra-busqueda">
+                        <input type="search" name="barra-busqueda" placeholder="Buscar productos...">
+                        <button type="submit" class="boton-busqueda">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
                 </li>
-                <?php if (isset($_SESSION['usuario_id'])): ?>
-                    <li><span style="color:#e5d7c4; font-family:'Cormorant Garamond',serif; font-size:1rem;">
-                        Hola, <?php echo htmlspecialchars($_SESSION['usuario_nombre']); ?>
-                    </span></li>
-                    <li><a href="misPedidos.php">Mis pedidos</a></li>
-                    <li><a href="cerrarSesion.php">Cerrar sesión</a></li>
-                <?php else: ?>
-                    <li><a href="registro.php">Registrarse</a></li>
-                    <li><a href="login.php">Iniciar sesión</a></li>
-                <?php endif; ?>
+                <li><a href="registro.php">Registrarse</a></li>
+                <li><a href="login.php">Iniciar sesión</a></li>
             </ul>
         </nav>
         <nav class="barra-nav-sec">
@@ -72,14 +61,7 @@ $resumen = $carritoController->getResumen();
                 </button>
             </div>
             
-            <?php if (isset($_SESSION['usuario_id'])): ?>
-                <div class="mensaje-usuario">
-                    <i class="fas fa-user-circle"></i>
-                    Compras de <strong><?php echo htmlspecialchars($_SESSION['usuario_nombre']); ?></strong>
-                    &nbsp;·&nbsp;
-                    <a href="misPedidos.php"><i class="fas fa-box"></i> Ver mis pedidos</a>
-                </div>
-            <?php else: ?>
+            <?php if (!isset($_SESSION['usuario_id'])): ?>
                 <div class="mensaje-login">
                     <i class="fas fa-info-circle"></i>
                     ¿Tienes cuenta? <a href="login.php">Inicia sesión</a> para guardar tu carrito y ver tus pedidos.
@@ -137,15 +119,9 @@ $resumen = $carritoController->getResumen();
                         <span>Total:</span>
                         <span id="total">$<?php echo number_format($resumen['total'], 2); ?></span>
                     </div>
-                    <?php if (isset($_SESSION['usuario_id'])): ?>
-                        <button class="btn-checkout" id="btnCheckout">
-                            <i class="fas fa-credit-card"></i> Proceder al pago
-                        </button>
-                    <?php else: ?>
-                        <a href="login.php" class="btn-checkout" style="display:block; text-align:center; text-decoration:none;">
-                            <i class="fas fa-sign-in-alt"></i> Inicia sesión para pagar
-                        </a>
-                    <?php endif; ?>
+                    <button class="btn-checkout" id="btnCheckout">
+                        <i class="fas fa-credit-card"></i> Proceder al pago
+                    </button>
                 </div>
             <?php endif; ?>
         </div>
@@ -158,7 +134,7 @@ $resumen = $carritoController->getResumen();
             let body = `action=${action}&id=${id}`;
             if (cantidad !== null) body += `&cantidad=${cantidad}`;
             
-            fetch('ajaxCarrito.php', {
+            fetch('ajax_carrito.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: body
@@ -231,7 +207,7 @@ $resumen = $carritoController->getResumen();
             if (btnVaciar) {
                 btnVaciar.addEventListener('click', function() {
                     if (confirm('¿Vaciar completamente el carrito?')) {
-                        fetch('ajaxCarrito.php', {
+                        fetch('ajax_carrito.php', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                             body: 'action=vaciar'
@@ -266,24 +242,6 @@ $resumen = $carritoController->getResumen();
             border-radius: 50%;
             min-width: 18px;
             text-align: center;
-        }
-        .mensaje-usuario {
-            background-color: #eaf4ec;
-            border: 1px solid #b7dbbe;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1rem;
-            color: #2d6a4f;
-        }
-        .mensaje-usuario a {
-            color: #2d6a4f;
-            font-weight: bold;
-            text-decoration: none;
-        }
-        .mensaje-usuario a:hover {
-            text-decoration: underline;
         }
     </style>
 </body>
