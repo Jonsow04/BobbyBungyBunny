@@ -93,28 +93,30 @@ try {
             <?php else: ?>
                 <?php foreach ($articulos as $articulo): ?>
                     <div class="caja">
-                        <div class="tooltip">
-                            <?php echo $articulo['descripcion']; ?>
-                        </div>
-                        
-                        <?php if ($articulo['imagen_url']): ?>
-                            <img src="<?php echo $articulo['imagen_url']; ?>" 
-                                 alt="<?php echo $articulo['nombre']; ?>" 
-                                 class="producto-imagen">
-                        <?php else: ?>
-                            <div class="imagen-placeholder">
-                                <i class="fas fa-carrot"></i>
+                        <a class="producto-link" href="detalleproducto.php?id=<?php echo $articulo['idArticulo']; ?>" style="display:block; color:inherit; text-decoration:none;">
+                            <div class="tooltip">
+                                <?php echo $articulo['descripcion']; ?>
                             </div>
-                        <?php endif; ?>
-                        
-                        <h3><?php echo $articulo['nombre']; ?></h3>
-                        <p class="precio">$<?php echo number_format($articulo['precio'], 2); ?></p>
-                        <p class="stock">
-                            <i class="fas fa-boxes"></i> Stock: <?php echo $articulo['stock']; ?> unidades
-                            <?php if ($articulo['stock'] <= 0): ?>
-                                <span class="sin-stock">Agotado</span>
+                            
+                            <?php if ($articulo['imagen_url']): ?>
+                                <img src="<?php echo $articulo['imagen_url']; ?>" 
+                                     alt="<?php echo $articulo['nombre']; ?>" 
+                                     class="producto-imagen">
+                            <?php else: ?>
+                                <div class="imagen-placeholder">
+                                    <i class="fas fa-carrot"></i>
+                                </div>
                             <?php endif; ?>
-                        </p>
+                            
+                            <h3><?php echo $articulo['nombre']; ?></h3>
+                            <p class="precio">$<?php echo number_format($articulo['precio'], 2); ?></p>
+                            <p class="stock">
+                                <i class="fas fa-boxes"></i> Stock: <?php echo $articulo['stock']; ?> unidades
+                                <?php if ($articulo['stock'] <= 0): ?>
+                                    <span class="sin-stock">Agotado</span>
+                                <?php endif; ?>
+                            </p>
+                        </a>
                         
                         <button class="btn-carrito" 
                                 data-id="<?php echo $articulo['idArticulo']; ?>"
