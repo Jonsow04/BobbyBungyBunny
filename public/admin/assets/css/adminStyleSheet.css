@@ -1,0 +1,248 @@
+/* admin/assets/css/adminStyle.css */
+
+:root {
+    --cafe-noir: #4c3d19;
+    --verde-kombu: #354024;
+    --verde-moss: #889063;
+    --tan: #cfbb99;
+    --hueso: #e5d7c4;
+    --fondo: #f9f6ee;
+    --sombra: 0 8px 32px rgba(76, 61, 25, 0.15);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Cormorant Garamond', serif;
+    background-color: var(--hueso);
+}
+
+.dashboard-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Header del dashboard */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--tan);
+}
+
+.dashboard-header h1 {
+    font-size: 1.8rem;
+    color: var(--cafe-noir);
+}
+
+.dashboard-header .admin-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.dashboard-header .admin-info span {
+    color: var(--cafe-noir);
+}
+
+.btn-cerrar-sesion {
+    background: var(--cafe-noir);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+}
+
+.btn-cerrar-sesion:hover {
+    background: var(--verde-kombu);
+}
+
+/* Tarjetas de estadísticas */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: var(--sombra);
+    transition: transform 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card i {
+    font-size: 2rem;
+    color: var(--verde-moss);
+    margin-bottom: 0.5rem;
+}
+
+.stat-card h3 {
+    font-size: 0.9rem;
+    color: var(--cafe-noir);
+    margin-bottom: 0.5rem;
+}
+
+.stat-card .stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--cafe-noir);
+}
+
+.stat-card.warning .stat-number {
+    color: var(--warning);
+}
+
+.stat-card.danger .stat-number {
+    color: var(--danger);
+}
+
+/* Secciones generales */
+.dashboard-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--sombra);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--tan);
+}
+
+.section-header h2 {
+    font-size: 1.3rem;
+    color: var(--cafe-noir);
+}
+
+.ventas-total {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--success);
+}
+
+.btn-crear {
+    background: var(--cafe-noir);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+}
+
+.btn-crear:hover {
+    background: var(--verde-kombu);
+}
+
+/* Tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--tan);
+}
+
+th {
+    background-color: var(--fondo);
+    font-weight: 600;
+    color: var(--cafe-noir);
+}
+
+tr:hover {
+    background-color: rgba(207, 187, 153, 0.1);
+}
+
+.stock-bajo {
+    color: var(--warning);
+    font-weight: bold;
+}
+
+.stock-agotado {
+    color: var(--danger);
+    font-weight: bold;
+}
+
+/* Botones de acción */
+.btn-editar, .btn-eliminar {
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    margin: 0 0.2rem;
+    display: inline-block;
+}
+
+.btn-editar {
+    background: var(--cafe-noir);
+    color: white;
+}
+
+.btn-editar:hover {
+    background: var(--verde-kombu);
+}
+
+.btn-eliminar {
+    background: var(--cafe-noir);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-eliminar:hover {
+    background: var(--verde-kombu);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 1rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .dashboard-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}

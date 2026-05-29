@@ -54,7 +54,7 @@ spl_autoload_register(function ($class) {
 try {
     $pdo = getConnection();
     $articuloController = new ArticuloController($pdo);
-    $articulos = $articuloController->listarArticulos();
+    $articulos = $articuloController->listarArticulos(); // ✅ Ya usa la BD y las imágenes
 } catch (Exception $e) {
     error_log("Error al cargar artículos: " . $e->getMessage());
     $articulos = [];
@@ -65,7 +65,11 @@ try {
 // ============================================
 ?>
 <!DOCTYPE html>
+<html lang="es">
 <head>
+    <link rel="icon" href="assets/multimedia/pictures/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/css/indexStyleSheet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="./assets/js/bunnyScripts.js" defer></script>
     <script src="./assets/js/carritoIndex.js" defer></script>
 </head>
@@ -91,12 +95,12 @@ try {
                     <div class="caja">
                         <a class="producto-link" href="detalleproducto.php?id=<?php echo $articulo['idArticulo']; ?>" style="display:block; color:inherit; text-decoration:none;">
                             <div class="tooltip">
-                                <?php echo $articulo['descripcion']; ?>
+                                <?php echo htmlspecialchars($articulo['descripcion']); ?>
                             </div>
                             
                             <?php if ($articulo['imagen_url']): ?>
                                 <img src="<?php echo $articulo['imagen_url']; ?>" 
-                                     alt="<?php echo $articulo['nombre']; ?>" 
+                                     alt="<?php echo htmlspecialchars($articulo['nombre']); ?>" 
                                      class="producto-imagen">
                             <?php else: ?>
                                 <div class="imagen-placeholder">
@@ -104,7 +108,7 @@ try {
                                 </div>
                             <?php endif; ?>
                             
-                            <h3><?php echo $articulo['nombre']; ?></h3>
+                            <h3><?php echo htmlspecialchars($articulo['nombre']); ?></h3>
                             <p class="precio">$<?php echo number_format($articulo['precio'], 2); ?></p>
                             <p class="stock">
                                 <i class="fas fa-boxes"></i> Stock: <?php echo $articulo['stock']; ?> unidades
@@ -113,10 +117,10 @@ try {
                                 <?php endif; ?>
                             </p>
                         </a>
-                        
+
                         <button class="btn-carrito" 
                                 data-id="<?php echo $articulo['idArticulo']; ?>"
-                                data-nombre="<?php echo $articulo['nombre']; ?>"
+                                data-nombre="<?php echo htmlspecialchars($articulo['nombre']); ?>"
                                 data-precio="<?php echo $articulo['precio']; ?>"
                                 <?php echo ($articulo['stock'] <= 0) ? 'disabled' : ''; ?>>
                             <i class="fas fa-shopping-cart"></i>

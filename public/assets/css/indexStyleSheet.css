@@ -48,8 +48,22 @@ main {
     background-color: var(--cafe-noir);
 }
 
+.sin-productos {
+    text-align: center;
+    padding: 3rem;
+    background: white;
+    border-radius: 16px;
+    color: var(--cafe-noir);
+}
+
+.sin-productos i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
 /* Logo */
-.icono-img {
+.logo-img {
     width: 50px;
     height: auto;
     flex-shrink: 0;
@@ -591,7 +605,7 @@ main {
     z-index: 100;
     bottom: 125%;
     left: 50%;
-    transform: translateX(-50%); 
+    transform: translateX(-50%);
     white-space: normal;
     width: 220px;
     font-size: 1.3rem;

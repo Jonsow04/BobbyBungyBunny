@@ -6,15 +6,6 @@ require_once __DIR__ . '/../helpers/validation.php';
 class ArticuloController {
     private $articuloModel;
     
-    // Mapeo de imágenes por ID (podría ir en config o BD)
-    private $mapaImagenes = [
-        1 => 'kaytee-fiesta-1_6kg.jpg',
-        2 => 'kaytee-pellets-supreme-4_54kg.jpg',
-        3 => 'tazas-apilables.jpg',
-        4 => 'habitat-jaula.jpg',
-        5 => 'kit-aseo.jpg',
-    ];
-    
     public function __construct($pdo) {
         $this->articuloModel = new Articulo($pdo);
     }
@@ -25,9 +16,9 @@ class ArticuloController {
     public function listarArticulos() {
         $articulos = $this->articuloModel->obtenerTodos();
         
-        // Enriquecer artículos con la ruta de imagen
+        // Enriquecer artículos con la ruta de imagen desde la BD
         foreach ($articulos as &$articulo) {
-            $articulo['imagen_url'] = $this->getImagenUrl($articulo['idArticulo']);
+            $articulo['imagen_url'] = $this->getImagenUrl($articulo);
         }
         
         // Validar y sanitizar datos antes de devolverlos
@@ -48,19 +39,71 @@ class ArticuloController {
             return null;
         }
         
-        $articulo['imagen_url'] = $this->getImagenUrl($articulo['idArticulo']);
+        $articulo['imagen_url'] = $this->getImagenUrl($articulo);
         return ValidationHelper::validateArticuloData($articulo);
     }
     
     /**
-     * Obtener la URL de la imagen de un producto
+     * Obtener la URL de la imagen de un producto desde la BD
+     * Las imágenes se guardan en: assets/multimedia/productos/
      */
-    private function getImagenUrl($idArticulo) {
-        $id = ValidationHelper::validateId($idArticulo);
-        if ($id && isset($this->mapaImagenes[$id])) {
-            return 'assets/multimedia/pictures/articulos/' . $this->mapaImagenes[$id];
+    private function getImagenUrl($articulo) {
+        // Verificar si el producto tiene una imagen guardada en la BD
+        if (!empty($articulo['imagen']) && file_exists(__DIR__ . '/../../public/assets/multimedia/productos/' . $articulo['imagen'])) {
+            return 'assets/multimedia/productos/' . $articulo['imagen'];
         }
-        return null; // Usará placeholder
+        
+        // Si no tiene imagen, retornar null para usar el placeholder
+        return null;
+    }
+    
+    /**
+     * Obtener productos destacados (con stock disponible)
+     */
+    public function listarArticulosDestacados($limite = 8) {
+        $articulos = $this->articuloModel->obtenerDestacados($limite);
+        
+        foreach ($articulos as &$articulo) {
+            $articulo['imagen_url'] = $this->getImagenUrl($articulo);
+        }
+        
+        return ValidationHelper::validateArticulosArray($articulos);
+    }
+    
+    /**
+     * Obtener productos por categoría
+     */
+    public function listarArticulosPorCategoria($idCategoria) {
+        $id = ValidationHelper::validateId($idCategoria);
+        if (!$id) {
+            return [];
+        }
+        
+        $articulos = $this->articuloModel->obtenerPorCategoria($id);
+        
+        foreach ($articulos as &$articulo) {
+            $articulo['imagen_url'] = $this->getImagenUrl($articulo);
+        }
+        
+        return ValidationHelper::validateArticulosArray($articulos);
+    }
+    
+    /**
+     * Buscar productos por término
+     */
+    public function buscarArticulos($termino) {
+        $termino = ValidationHelper::sanitizarTexto($termino);
+        if (empty($termino)) {
+            return [];
+        }
+        
+        $articulos = $this->articuloModel->buscar($termino);
+        
+        foreach ($articulos as &$articulo) {
+            $articulo['imagen_url'] = $this->getImagenUrl($articulo);
+        }
+        
+        return ValidationHelper::validateArticulosArray($articulos);
     }
 }
 ?>

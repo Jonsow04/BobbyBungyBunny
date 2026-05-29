@@ -1,3 +1,7 @@
+<?php
+    include 'includes/header.php';
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -12,39 +16,7 @@
 </head>
 
 <body>
-    <header>
-        <nav class="barra-nav">
-            <a href="index.php">
-                <img src="assets/multimedia/pictures/icon.png" alt="Bobby Bunny" class="icono">
-            </a>
-            <form class="barra-busqueda" action="">
-                <input type="search" placeholder="Buscar productos...">
-                <button type="submit" class="boton-busqueda">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
-            <ul class="nav-ul">
-                <li><a href="#"><i class="fas fa-shopping-bag"></i></a></li>
-                <li><a href="#">Registrarse</a></li>
-                <li><a href="login.php">Iniciar sesión</a></li>
-            </ul>
-        </nav>
-
-        <nav class="barra-nav-sec">
-            <ul class="nav-ul">
-                <li><a href="piensos.php">Piensos</a></li>
-                <li><a href="premios.php">Premios</a></li>
-                <li><a href="juguetes.php">Juguetes</a></li>
-                <li><a href="habitats.php">Habitats</a></li>
-                <li>
-                    <a href="limpieza.php" style="color: white; border-bottom: 2px solid white;">
-                        Limpieza y cuidado
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </header>
-
+    
     <main>
         <div class="hero">
             <div class="hero-content">

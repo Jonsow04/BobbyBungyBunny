@@ -30,7 +30,7 @@ if (isset($_SESSION['carrito']) && is_array($_SESSION['carrito'])) {
 <header>
     <nav class="barra-nav">
         <a href="/index.php">
-            <img src="/assets/multimedia/pictures/icon.png" alt="Bobby" class="icono-img">
+            <img src="/assets/multimedia/pictures/icon.png" alt="Bobby" class="logo-img">
         </a>
         <form class="barra-busqueda" action="">
             <input type="search" placeholder="Buscar productos...">
