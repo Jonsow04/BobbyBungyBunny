@@ -15,10 +15,20 @@ $adminController = new AdminController($pdo);
 
 $id = $_GET['id'] ?? 0;
 
-if ($id) {
+// Validar que el ID sea un número válido
+if ($id > 0) {
     $resultado = $adminController->eliminarProducto($id);
-    $_SESSION['admin_mensaje'] = $resultado['success'] ? 'Producto eliminado correctamente' : $resultado['error'];
-    $_SESSION['admin_mensaje_tipo'] = $resultado['success'] ? 'success' : 'error';
+    
+    if ($resultado['success']) {
+        $_SESSION['admin_mensaje'] = 'Producto eliminado correctamente';
+        $_SESSION['admin_mensaje_tipo'] = 'success';
+    } else {
+        $_SESSION['admin_mensaje'] = $resultado['error'];
+        $_SESSION['admin_mensaje_tipo'] = 'error';
+    }
+} else {
+    $_SESSION['admin_mensaje'] = 'ID de producto no válido';
+    $_SESSION['admin_mensaje_tipo'] = 'error';
 }
 
 header('Location: dashboard.php');

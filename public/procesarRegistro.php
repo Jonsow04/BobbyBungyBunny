@@ -243,13 +243,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $codigoAdmin = $_POST['codigo_admin'] ?? '';
     
     // Validar código de administrador
-    $validacionCodigo = validarCodigoAdmin($codigoAdmin, $tipoCuenta);
+    /*$validacionCodigo = validarCodigoAdmin($codigoAdmin, $tipoCuenta);
     if ($validacionCodigo !== true) {
         $_SESSION['errores_registro'] = ['codigo_admin' => $validacionCodigo];
         $_SESSION['datos_registro'] = $_POST;
         header('Location: registro.php');
         exit();
-    }
+    }*/
     
     // Determinar el idTipoUsuario basado en el tipo de cuenta
     if ($tipoCuenta === 'admin') {

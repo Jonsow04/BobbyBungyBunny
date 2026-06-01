@@ -77,7 +77,6 @@ $titulo = 'Dashboard | Administración';
         <div class="dashboard-section">
             <div class="section-header">
                 <h2><i class="fas fa-chart-line"></i> Productos más vendidos</h2>
-                <a href="productos.php?top=ventas" class="btn-crear">Ver todos</a>
             </div>
             <table>
                 <thead>
@@ -107,7 +106,6 @@ $titulo = 'Dashboard | Administración';
         <div class="dashboard-section">
             <div class="section-header">
                 <h2><i class="fas fa-exclamation-circle"></i> Productos con bajo stock (≤5)</h2>
-                <a href="productos.php?stock=bajo" class="btn-crear">Ver todos</a>
             </div>
             <table>
                 <thead>
@@ -186,7 +184,6 @@ $titulo = 'Dashboard | Administración';
         <div class="dashboard-section">
             <div class="section-header">
                 <h2><i class="fas fa-truck"></i> Pedidos recientes</h2>
-                <a href="pedidos.php" class="btn-crear">Ver todos</a>
             </div>
             <table>
                 <thead>
